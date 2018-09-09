@@ -10,7 +10,38 @@ export const navItems = [
   },
   {
     title: true,
-    name: 'Extras',
+    name: 'Theme'
+  },
+  {
+    name: 'Colors',
+    url: '/theme/colors',
+    icon: 'icon-drop'
+  },
+  {
+    name: 'Typography',
+    url: '/theme/typography',
+    icon: 'icon-pencil'
+  },
+  {
+    title: true,
+    name: 'Components'
+  },
+  {
+    name: 'Manage Admin User',
+    url: '/base',
+    icon: 'icon-puzzle',
+    children: [   
+      {
+        name: 'Manage Users',
+        url: '/base/forms',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: 'Roles',
+        url: '/base/forms',
+        icon: 'icon-puzzle'
+      },
+    ]
   },
   {
     name: 'Pages',
