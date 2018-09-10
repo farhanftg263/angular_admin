@@ -1,6 +1,5 @@
 const validator = require('validator');
-const httpResponseCode=require('../helpers/httpResponseCode')
-const httpResponseMessage=require('../helpers/httpResponseMessage')
+const constant = require('../constant');
 const validate_request = {
     validate_all_request: function (request_body, require_parameter) {
         for (var require_key in require_parameter) { 
@@ -11,7 +10,7 @@ const validate_request = {
                     }
                     else {                                    
                         if(!validator.isEmail(request_body['email'])){
-                            return [httpResponseCode.BAD_REQUEST,httpResponseMessage.CORRECT_EMAIL];
+                            return [403,'Email is not correct format'];
                         }
                      //   return true
                     }
@@ -69,24 +68,6 @@ const validate_request = {
                     }
                     break;
                      case 'userType':
-                    if (!request_body['userType']) {
-                        return [403, "userType is required"];
-                    }
-                    break;
-                     case 'latitude':
-                    if (!request_body['latitude']) {
-                        return [403, "latitude is required"];
-                    }
-                    break;
-                     case 'longitude':
-                    if (!request_body['longitude']) {
-                        return [403, "longitude is required"];
-                    }
-                    break;
-                     case 'cardNumber':
-                    if (!request_body['cardNumber']) {
-                        return [403, "Card Number is required"];
-                    }
                     break;
                      case 'name':
                     if (!request_body['name']) {

@@ -77,6 +77,8 @@ function authenticate(req, res)
     })
 
 }
+// register function
+
 function authenticate_back(req, res) {
     userService.authenticate(req.body.username, req.body.password)
         .then(function (user) {
