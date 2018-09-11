@@ -36,7 +36,12 @@ const validate_request = {
                     if (!request_body['accessToken']) {
                         return [403, "access Token is required"];
                     }
-                    break;  
+                    break;
+                case '_id':
+                    if (!request_body['_id']) {
+                        return [403, "_id parameter is required"];
+                    }
+                    break;
             }
         }
     }
