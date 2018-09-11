@@ -50,6 +50,7 @@
     "ng2-charts": "^1.6.0",
     "ngx-bootstrap": "^3.0.1",
     "ngx-perfect-scrollbar": "^6.3.0",
+    "node-sass": "^4.9.3",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",
     "simple-line-icons": "^2.4.1",

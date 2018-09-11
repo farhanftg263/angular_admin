@@ -24,7 +24,6 @@ module.exports = router;
 
 function authenticate(req, res)
 {
-    console.log("login",req.body);
     if (!req.body.email && !req.body.password) {
         return res.send({
             code: constant.ERROR,
@@ -33,10 +32,11 @@ function authenticate(req, res)
     }
 
     const data = req.body;
-    const flag = validation.validate_all_request(data, ['email', 'password']);
-    if (flag){
+    const flag = validator.validate_all_request(data, ['email', 'password']);
+    
+    /*if (flag){
         return res.json(flag);
-    }
+    }*/
 
     User.findOne({ email: req.body.email}, (err, result) => {
         if (err) {
@@ -50,7 +50,7 @@ function authenticate(req, res)
                 code: constant.ERROR ,
                 message: message.USER.EMAIL_NOT_FOUND,
             });
-          } else {
+            } else {
                 result.comparePassword(req.body.password, function (err, isMatch) {
                     if (isMatch && !err) {
                         return res.json({
@@ -58,7 +58,7 @@ function authenticate(req, res)
                             message: message.USER.LOGIN_SUCCESSFULLY,
                             result: {
                                 _id: result._id,
-                                email: result.username,
+                                email: result.email,
                                 firstName: result.firstName,
                                 lastName: result.lastName,
                                 token: jwt.sign({ sub: result._id }, config.secret)

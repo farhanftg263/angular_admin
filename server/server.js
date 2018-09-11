@@ -5,6 +5,19 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 var expressJwt = require('express-jwt');
 var config = require('config.json');
+var mongoose = require('mongoose');
+
+//Set up default mongoose connection
+var mongoDB = config.connectionString;
+mongoose.connect(mongoDB,{ useNewUrlParser: true });
+// Get Mongoose to use the global promise library
+mongoose.Promise = global.Promise;
+//Get the default connection
+var db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -9,20 +9,21 @@
                 <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
+                  <p *ngIf="message" class="alert alert-danger">{{message}}</p>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="icon-user"></i></span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Username" name="username" autocomplete="username" [(ngModel)]="model.username" #username="ngModel" required>
+                    <input type="email" class="form-control" placeholder="Email" name="email" autocomplete="email" [(ngModel)]="model.email" #email="ngModel" required>
                   </div>
-                  <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+                  <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
                   <div class="input-group mb-4">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="icon-lock"></i></span>
                     </div>
                     <input type="password" name="password" class="form-control" placeholder="Password" autocomplete="current-password" [(ngModel)]="model.password" #password="ngModel" required>
                     
-                  </div>
+                  </div> 
                   <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
                   <div class="row">
                     <div class="col-6">
@@ -37,7 +38,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   </main>
