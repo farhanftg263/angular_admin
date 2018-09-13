@@ -77,7 +77,7 @@ var UserSchema = new Schema({
     type:String,
     trim:true,
     sparse:true,
-    default:0
+    default:1
     },
     emailVerified:{
     type:String,

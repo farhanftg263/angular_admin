@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 
 import { AlertService, AuthenticationService } from '../../_services/index';
@@ -7,7 +7,7 @@ import { AlertService, AuthenticationService } from '../../_services/index';
   selector: 'app-dashboard',
   templateUrl: 'login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit  {
   model: any = {};
   loading = false;
   returnUrl : string;
@@ -18,6 +18,13 @@ export class LoginComponent {
       private alertService : AlertService
 
     ){}
+
+    ngOnInit() {
+      if(localStorage.getItem('currentUser'))
+      {
+        this.router.navigate(['dashboard']);
+      }
+    }
 
     //Login 
     login()
@@ -40,6 +47,5 @@ export class LoginComponent {
               this.loading = false;
           }
         );
-        
     }
  }

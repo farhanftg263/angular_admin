@@ -15,8 +15,10 @@ var userService = require('services/user.service');
 // routes
 router.post('/authenticate', authenticate);
 router.post('/register', register);
+router.post('/forgotpassword',forgotpassword);
+router.put('/reset/:_otp',resetPassword);
 router.get('/', summary);
-router.get('/current', getCurrent);
+router.get('/:_id', getCurrent);
 router.put('/:_id', update);
 router.delete('/:_id', _delete);
 
@@ -26,7 +28,7 @@ module.exports = router;
  Function Name : Login Check
  Author  : Farhan
  Created : 11-03-2018
- @param  : email , paswoord 
+ @param  : email , password 
 */
 function authenticate(req, res)
 {
@@ -98,7 +100,7 @@ function register(req, res) {
         })
     }
     const data = req.body;
-    const flag = validation.validate_all_request(data, ['email', 'password', 'userType']);
+    const flag = validator.validate_all_request(data, ['email', 'password', 'userType']);
     if (flag) {
         return res.json(flag);
     }
@@ -191,11 +193,11 @@ function summary(req, res) {
  Created : 11-03-2018
 */
 function getCurrent(req, res) {
-    var id = req.params.id;
+    var id = req.params._id;
     if (!id) {
         return res.json({
             code : constant.ERROR,
-            message : constant.USER.ID_PARAMETER_REQUIRED
+            message : message.USER.ID_PARAMETER_REQUIRED
         });
     }
 	User.findOne({_id:id}, (err, result) => {
@@ -213,7 +215,7 @@ function getCurrent(req, res) {
             }else {
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.USER.USER_NOT_FOUND,
+                    message: message.USER.USER_FOUND,
                     result: result
                 });
 
@@ -221,23 +223,135 @@ function getCurrent(req, res) {
         }
     })
 }
-
+/*
+    Function Name : Get user by _id
+    Author  : Farhan
+    Created : 11-03-2018
+    Modified By : Farhan
+    Type: Public function for update user
+*/
 function update(req, res) {
-    userService.update(req.params._id, req.body)
-        .then(function () {
-            res.json('success');
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
-}
 
+    User.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
+        if(err){
+            return res.send({
+                code: constant.ERROR,
+                message: constant.INTERNAL_SERVER_ERROR
+            });
+        }else {
+            if (!result) 
+            {
+                res.json({
+                    code: constant.ERROR,
+                    message: message.USER.USER_NOT_FOUND
+                });
+            }else {
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: message.USER.USER_FOUND,
+                    result: result
+                });
+        
+            }
+        }
+    })
+}
+/*
+    Function Name : delete user
+    Author  : Farhan
+    Created : 11-03-2018
+    Modified By : Farhan
+    Type: Public function for delete user
+*/
 function _delete(req, res) {
-    userService.delete(req.params._id)
-        .then(function () {
-            res.json('success');
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
+
+    User.findByIdAndRemove(req.params._id, (err,result) => {
+        if(err)
+        {
+            return res.json({
+                code: constant.ERROR,
+                message: message.USER.USER_NOT_FOUND
+            });
+        }
+        return res.json({
+            code: constant.SUCCESS,
+            message: message.USER.USER_DELETED_SUCCESS,
+            result: result
         });
+    })
+}
+/*
+    Function Name : forgot password
+    Author  : Farhan
+    Created : 11-03-2018
+    Modified By : Farhan
+    Type: Public function for forgot password
+*/
+function forgotpassword(req, res)
+{
+    User.findOne({email: req.body.email},(err,result) => {
+        if(err)
+        {
+            res.send({
+                code : constant.ERROR,
+                message : constant.INTERNAL_SERVER_ERROR
+            });
+        }
+        else if(!result)
+        {
+            res.json({
+                code : constant.ERROR,
+                message : message.USER.EMAIL_NOT_FOUND
+            });
+        }
+        else{
+            // send mail to user
+            let transporter = nodemailer.createTransport({
+                host: constant.SMTP_HOST,
+                port: constant.SMTP_PORT,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: constant.SMTP_USERNAME, // generated ethereal user
+                    pass: constant.SMTP_PASSWORD // generated ethereal password
+                }
+            });
+            host=req.get('host');
+            link="http://"+req.get('host')+"/user/verifyEmail/"+result._id;
+            // setup email data with unicode symbols
+            let mailOptions = {
+                from: constant.SMTP_FROM_EMAIL, // sender address
+                to: 'farhan.hashmi@@newmediaguru.net', // list of receivers
+                subject: 'Please confirm your Email account ✔', // Subject line
+                text: 'Hello world?', // plain text body
+                html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+            };
+
+            // send mail with defined transport object
+            /*transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log('Message sent: %s', info.messageId);
+                // Preview only available when sending through an Ethereal account
+                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+            });*/
+
+            return res.send({
+                code: constant.SUCCESS,
+                message: message.USER.FORGOT_PASSWORD_SUCCESS,
+                result: result
+            })
+        }
+    })
+}
+/*
+    Function Name : reset password
+    Author  : Farhan
+    Created : 11-03-2018
+    Modified By : Farhan
+    Type: Public function for forgot password
+*/
+function resetPassword()
+{
+
 }

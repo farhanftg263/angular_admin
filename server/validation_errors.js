@@ -11,7 +11,12 @@ module.exports = {
         'USER_SUMMARY_FOUND' : 'User summary found',
         'ID_PARAMETER_REQUIRED' : '_id parameter is required',
         'USER_NOT_FOUND' : 'User not found',
-        'USER_FOUND' : 'User found'
+        'USER_FOUND' : 'User found',
+        'USER_DELETED_SUCCESS' : 'User has been deleted successfully.',
+        'FORGOT_PASSWORD_SUCCESS' : 'Email has been sent to the user.'
+    },
+    'ROLE' : {
+        
     }
 };
 

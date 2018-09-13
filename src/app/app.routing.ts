@@ -9,6 +9,7 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './_guards/index';
+import { UserSummaryComponent } from './views/Users/UserSummary.component';
 
 export const routes: Routes = [
   {
@@ -53,8 +54,11 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'base',
-        loadChildren: './views/base/base.module#BaseModule'
+        path: 'admin_user/summary',
+        component : UserSummaryComponent,
+        data: {
+          title: 'Manage Admin User/Summary'
+        }
       },
       {
         path: 'buttons',

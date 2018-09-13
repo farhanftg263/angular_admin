@@ -33,7 +33,7 @@ export const navItems = [
     children: [   
       {
         name: 'Manage Users',
-        url: '/base/forms',
+        url: '/admin_user/summary',
         icon: 'icon-puzzle'
       },
       {

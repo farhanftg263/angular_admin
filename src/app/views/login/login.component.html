@@ -15,6 +15,7 @@
                       <span class="input-group-text"><i class="icon-user"></i></span>
                     </div>
                     <input type="email" class="form-control" placeholder="Email" name="email" autocomplete="email" [(ngModel)]="model.email" #email="ngModel" required>
+                    
                   </div>
                   <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
                   <div class="input-group mb-4">
