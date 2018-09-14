@@ -10,6 +10,7 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './_guards/index';
 import { UserSummaryComponent } from './views/Users/UserSummary.component';
+import { UserAddComponent } from './views/Users/UserAdd.component';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,13 @@ export const routes: Routes = [
         component : UserSummaryComponent,
         data: {
           title: 'Manage Admin User/Summary'
+        }
+      },
+      {
+        path: 'admin_user/add',
+        component : UserAddComponent,
+        data: {
+          title: 'Manage Admin User/Add User'
         }
       },
       {

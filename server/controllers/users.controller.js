@@ -10,7 +10,6 @@ var bcrypt = require('bcryptjs');
 var config = require('config.json');
 var express = require('express');
 var router = express.Router();
-var userService = require('services/user.service');
 
 // routes
 router.post('/authenticate', authenticate);
@@ -345,13 +344,13 @@ function forgotpassword(req, res)
     })
 }
 /*
-    Function Name : reset password
+    Function Name : Reset Password
     Author  : Farhan
     Created : 11-03-2018
     Modified By : Farhan
-    Type: Public function for forgot password
+    Type: Public function for reset password
 */
 function resetPassword()
 {
-
+    
 }
