@@ -3,21 +3,49 @@
       <strong>Add</strong> User
     </div>
     <div class="card-body">
-      <form action="" method="post">
+      <form  novalidate [formGroup]="user" (ngSubmit)="add(user)">
+        <div class="form-group">
+            <label for="nf-firstName">First Name</label>
+            <input type="text" id="nf-firstName" formControlName="firstName" class="form-control" placeholder="First Name" autocomplete="email">
+            <span class="invalid-feedback" *ngIf="user.get('firstName').hasError('required') && user.invalid">First name is required</span>
+        </div>
+        <div class="form-group">
+            <label for="nf-lasttName">Last Name</label>
+            <input type="text" id="nf-lasttName" name="lastName" formControlName="lastName" class="form-control" placeholder="Last Name" autocomplete="firstName">
+            <span class="invalid-feedback" *ngIf="user.get('lastName').hasError('required') ">Last name is required</span>
+        </div>
         <div class="form-group">
           <label for="nf-email">Email</label>
-          <input type="email" id="nf-email" name="nf-email" class="form-control" placeholder="Enter Email.." autocomplete="email">
-          <span class="help-block">Please enter your email</span>
+          <input type="email" id="nf-email" name="email" class="form-control" formControlName="email" placeholder="Enter Email.." autocomplete="email">
+          <span class="invalid-feedback" *ngIf="user.get('email').invalid">
+            <span *ngIf="user.get('email').hasError('required')">Email is required</span>
+            <span *ngIf="user.get('email').hasError('email')">Invalid email id</span>
+        </span>
         </div>
         <div class="form-group">
           <label for="nf-password">Password</label>
-          <input type="password" id="nf-password" name="nf-password" class="form-control" placeholder="Enter Password.." autocomplete="current-password">
-          <span class="help-block">Please enter your password</span>
+          <input type="text" id="nf-password" name="password" class="form-control" formControlName="password" placeholder="Enter Password.." autocomplete="password">
+          <span class="invalid-feedback" *ngIf="user.get('password').hasError('required')">Please enter your email</span>
+        </div>
+        <div class="form-group">
+          <label for="nf-password">Confirm Password</label>
+          <input type="text" id="nf-password" name="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Enter Password.." autocomplete="password">
+          <span class="invalid-feedback" *ngIf="user.get('confirmPassword').invalid">
+              <span *ngIf="user.get('confirmPassword').hasError('required')">Confirm password is required</span>
+              <span *ngIf="user.get('confirmPassword').hasError('mismatchedPasswords')">Passwords do not match.</span>
+          </span>
+        </div>      
+        <div class="form-group">
+          <label for="nf-password">Role</label>
+          <select class="form-control"  formControlName="userType" placeholder="Select Role" >
+            <option [value]="role._id" *ngFor="let role of roleList.result">{{role.roleName}}</option>
+          </select>
+          <span class="invalid-feedback" *ngIf="user.get('userType').hasError('required')" >Please enter your password</span>
         </div>
       </form>
     </div>
     <div class="card-footer">
-      <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+      <button type="submit" [disabled]="user.invalid" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
       <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
     </div>
   </div>

@@ -26,6 +26,7 @@ export class UserSummaryComponent implements OnInit  {
       this.userService.getAll().subscribe(
         data => {
             this.userSummary = data;
+            console.log(this.userSummary);
         },
         error => {
             this.alertService.error(error);

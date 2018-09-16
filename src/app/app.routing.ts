@@ -55,18 +55,8 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'admin_user/summary',
-        component : UserSummaryComponent,
-        data: {
-          title: 'Manage Admin User/Summary'
-        }
-      },
-      {
-        path: 'admin_user/add',
-        component : UserAddComponent,
-        data: {
-          title: 'Manage Admin User/Add User'
-        }
+        path: 'admin_user',
+        loadChildren: './views/Users/adminuser.module#AdminUserModule'
       },
       {
         path: 'buttons',

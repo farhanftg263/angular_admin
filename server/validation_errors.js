@@ -16,7 +16,7 @@ module.exports = {
         'FORGOT_PASSWORD_SUCCESS' : 'Email has been sent to the user.'
     },
     'ROLE' : {
-        
+        'ROLE_SUMMARY_FOUND' : 'Role summary found'
     }
 };
 

@@ -9,7 +9,7 @@ export class RoleService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<Role[]>(appConfig.apiUrl+'/users/?page=1');
+        return this.http.get<Role[]>(appConfig.apiUrl+'/roles/?page=1');
     }
 
     getById(id: number) {

@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 global.Promise = mongoose.Promise;
 var bcrypt = require('bcrypt-nodejs');
 
-var UserSchema = new Schema({
+var UserSchema = new Schema(
+{
     firstName:{
     type:String,
     trim:true
@@ -64,21 +65,23 @@ var UserSchema = new Schema({
     type:String,
     trim:true
     },
+    subscriptionPlan:{
+    type:String,
+    trim:true
+    },
     accessToken:{
     type:String,
     trim:true
     },
+
     //User type has 2 option 1=>admin,0=>users
-    userType:{
-    type:String,
-    trim:true
-    },
-    status:{
+    userType:[{ type: Schema.Types.ObjectId, ref: 'Role' }],
+    userStatus:{
     type:String,
     trim:true,
     sparse:true,
-    default:1
-    },
+    default:0
+    }, 
     emailVerified:{
     type:String,
     trim:true,

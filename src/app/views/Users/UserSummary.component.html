@@ -4,7 +4,7 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-align-justify"></i> User Summary
-            <button type="button" class="btn btn-sm btn-primary pull-right" routerLink ="/admin_user/add"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button type="button" class="btn btn-sm btn-primary pull-right" routerLink ="/admin_user/add"><i class="fa fa-dot-circle-o"></i> Add</button>
           </div>
           <div class="card-body">
             <table class="table">
@@ -22,7 +22,7 @@
                   <td>{{user.firstName}}</td>
                   <td>{{user.lastName}}</td>
                   <td>{{user.email}}</td>
-                  <td>{{user.userType}}</td>
+                  <td>{{user.userType[0].roleName}}</td>
                   <td>
                     <span class="badge badge-success">Active</span>
                   </td>

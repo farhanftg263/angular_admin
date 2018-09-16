@@ -8,16 +8,16 @@ var express = require('express');
 var router = express.Router();
 
 // routes
-router.post('/authenticate', authenticate);
+/*router.post('/authenticate', authenticate);
 router.post('/rolelist', roleList);
 router.post('/register', register);
 router.post('/forgotpassword',forgotpassword);
-router.put('/reset/:_otp',resetPassword);
+router.put('/reset/:_otp',resetPassword);*/
 router.get('/', summary);
-router.get('/:_id', getCurrent);
+/*router.get('/:_id', getCurrent);
 router.put('/:_id', update);
-router.delete('/:_id', _delete);
-
+router.delete('/:_id', _delete);*/
+module.exports = router;
 /*
  Function Name : Role Summary/Liest
  Author  : Farhan
@@ -34,7 +34,7 @@ function summary(req, res) {
                 if (err) return next(err)
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.USER.USER_SUMMARY_FOUND,
+                    message: message.ROLE.ROLE_SUMMARY_FOUND,
                     result: roles,
                     total : count,
                     current: page,

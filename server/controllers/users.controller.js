@@ -169,6 +169,7 @@ function summary(req, res) {
     var perPage = constant.PER_PAGE_RECORD
     var page = req.params.page || 1;
     User.find({})
+        .populate('userType')
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, users) {
