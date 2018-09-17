@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/map';
-import { AlertService,RoleService, ValidationService} from '../../_services';
+import { AlertService,RoleService,UserService, ValidationService} from '../../_services';
 import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
 
 @Component({
@@ -18,6 +18,7 @@ export class UserAddComponent implements OnInit {
     loading = false;
     returnUrl : string;
     roleList : any = {};
+    userAddResponse : any = {};
     message: string;
     user: FormGroup;
     userAddForm: FormGroup;
@@ -26,6 +27,7 @@ export class UserAddComponent implements OnInit {
         private router : Router,
         private alertService : AlertService,
         private roleService : RoleService,
+        private userService : UserService,
         private validationService : ValidationService,
         private fb: FormBuilder
       ){}
@@ -48,8 +50,6 @@ export class UserAddComponent implements OnInit {
             "userType" : ['',Validators.required],
             "password" : ['',Validators.required],
             "confirmPassword" : ['',Validators.required]
-        },{
-            validator : this.validationService.matchingPasswords('password','confirmPassword')
         });
     }
     /*
@@ -59,12 +59,32 @@ export class UserAddComponent implements OnInit {
     */
     add()
     {
+        
         this.submitted = true;
-        console.log(this.user.invalid);
+        this.loading = true;
+        
         if(this.user.invalid)
         {
             return;
         }
-        alert("Success");
+        
+        this.userService.create(this.user.value).subscribe(
+            data => {
+                this.userAddResponse = data;
+                if(this.userAddResponse.code == 200)
+                {
+                    this.alertService.success(this.userAddResponse.message,true);
+                    this.loading = false;
+                    this.router.navigate(['admin_user/summary']);
+                }
+                else{
+                    this.alertService.error(this.userAddResponse.message);
+                    this.loading = false;
+                }
+            },
+            error => {
+                this.alertService.error(error);
+                this.loading = false;
+            })
     }
 }

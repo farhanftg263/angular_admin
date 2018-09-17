@@ -19,12 +19,6 @@ var UserSchema = new Schema(
         type:String,
         trim:true
     },
-    userName:{
-    type:String,
-    sparse: true,
-    required:true,
-    lowercase:true,
-    },
     email:{
     type:String,
     sparse: true,

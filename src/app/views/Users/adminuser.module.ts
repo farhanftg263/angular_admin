@@ -6,12 +6,16 @@ import { UserAddComponent } from './UserAdd.component';
 import { UserSummaryComponent } from './UserSummary.component';
 import { AdminUserRoutingModule } from './adminuser-routing.module';
 
+// Pagination Component
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+
 @NgModule({
   imports: [
     FormsModule,
     CommonModule,
     AdminUserRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PaginationModule.forRoot(),
   ],
   declarations: [ 
     UserAddComponent,

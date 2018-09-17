@@ -11,6 +11,8 @@ import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './_guards/index';
 import { UserSummaryComponent } from './views/Users/UserSummary.component';
 import { UserAddComponent } from './views/Users/UserAdd.component';
+import { CmsSummaryComponent } from './views/Cms/CmsSummary.component';
+import { CmsAddComponent } from './views/Cms/CmsAdd.component';
 
 export const routes: Routes = [
   {
@@ -57,6 +59,10 @@ export const routes: Routes = [
       {
         path: 'admin_user',
         loadChildren: './views/Users/adminuser.module#AdminUserModule'
+      },
+      {
+        path: 'cms',
+        loadChildren: './views/Cms/cms.module#CmsModule'
       },
       {
         path: 'buttons',

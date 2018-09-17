@@ -13,7 +13,7 @@ var router = express.Router();
 
 // routes
 router.post('/authenticate', authenticate);
-router.post('/register', register);
+router.post('/', register);
 router.post('/forgotpassword',forgotpassword);
 router.put('/reset/:_otp',resetPassword);
 router.get('/', summary);
@@ -92,7 +92,7 @@ function authenticate(req, res)
 
 function register(req, res) {
     console.log('<<<<<<<<<<<', JSON.stringify(req.body))
-    if (!req.body.firstName && !req.body.middleName && !req.body.lastName && !req.body.email && !req.body.password && !req.body.userType) {
+    if (!req.body.firstName && !req.body.lastName && !req.body.email && !req.body.password && !req.body.userType) {
         return res.send({
         code: constant.ERROR,
         message: constant.INTERNAL_SERVER_ERROR

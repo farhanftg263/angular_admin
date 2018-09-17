@@ -39,6 +39,7 @@ app.use(expressJwt({
 // routes
 app.use('/users', require('./controllers/users.controller'));
 app.use('/roles', require('./controllers/roles.controller'));
+app.use('/cms', require('./controllers/cms.controller'));
 
 // error handler
 app.use(function (err, req, res, next) {

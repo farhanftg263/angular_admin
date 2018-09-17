@@ -17,6 +17,15 @@ module.exports = {
     },
     'ROLE' : {
         'ROLE_SUMMARY_FOUND' : 'Role summary found'
+    },
+      'CMS' : {
+        'INSERT_SUCCESS' : 'CMS has been added successfully',
+        'UPDATE_SUCCESS' : 'CMS has been updated successfully',        
+        'PAGE_NAME_REQUIRED' : 'CMS Page name is required',
+        'PAGE_CONTENT_REQUIRED' : 'CMS Page content is required',        
+        'PAGE_NAME_ALREADY_EXIST' : 'CMS Page name is already exist',        
+        'ID_PARAMETER_REQUIRED' : '_id parameter is required',
+        'CMS_SUMMARY_FOUND' : 'CMS summary found',        
     }
 };
 

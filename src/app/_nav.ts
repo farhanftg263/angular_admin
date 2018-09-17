@@ -3,12 +3,8 @@ export const navItems = [
     name: 'Dashboard',
     url: '/dashboard',
     icon: 'icon-speedometer',
-    badge: {
-      variant: 'info',
-      text: 'NEW'
-    }
   },
-  {
+  /*{
     title: true,
     name: 'Theme'
   },
@@ -21,10 +17,10 @@ export const navItems = [
     name: 'Typography',
     url: '/theme/typography',
     icon: 'icon-pencil'
-  },
+  },*/
   {
     title: true,
-    name: 'Components'
+    name: 'Manager'
   },
   {
     name: 'Manage Admin User',
@@ -42,8 +38,31 @@ export const navItems = [
         icon: 'icon-puzzle'
       },
     ]
+  },{
+    name: 'Manage Master',
+    url: '/base',
+    icon: 'icon-puzzle',
+    children: [   
+      {
+        name: 'Manage CMS',
+        url: '/cms/summary',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: 'Manage Global App Settings',
+        url: '/base/forms',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: 'Manage Email Template',
+        url: '/base/forms',
+        icon: 'icon-puzzle'
+      },
+      
+    ]
   },
-  {
+  
+  /*{
     name: 'Pages',
     url: '/pages',
     icon: 'icon-star',
@@ -69,5 +88,5 @@ export const navItems = [
         icon: 'icon-star'
       }
     ]
-  },
+  },*/
 ];

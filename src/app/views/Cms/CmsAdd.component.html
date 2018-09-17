@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Add</strong> Cms
+  </div>
+  <form novalidate [formGroup]="cms" (ngSubmit)="add(cms)">
+  <div class="card-body">    
+      <div class="form-group">
+        <label for="nf-pageName">Page Name</label>
+        <input type="text" id="nf-pageName" formControlName="pageName" class="form-control" maxlength="60" minlength="2" placeholder="Enter Page Name.." autocomplete="page-name">
+        <span class="invalid-feedback" *ngIf="cms.get('pageName').hasError('required') && cms.invalid">Please enter page name.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="nf-pageContent">Page Content</label>
+        <app-tinymce formControlName="contentControl"></app-tinymce>
+       <span class="invalid-feedback" *ngIf="cms.get('contentControl').hasError('required') && cms.invalid">Please enter page content.</span>           
+      </div>
+
+      <div class="form-group">
+        <label for="nf-metaTitle">Meta Title</label>
+        <input type="text" name="metaTitle"  id="nf-metaTitle" maxlength="60" minlength="2" class="form-control" placeholder="Enter Page Meta Title..">
+        
+      </div>
+      <div class="form-group">
+        <label for="nf-metaDescription">Meta Description</label>
+        <input type="text" id="nf-metaDescription" name="metaDescription" maxlength="60" minlength="2" class="form-control" placeholder="Enter Page Meta Description..">
+        
+      </div>      
+      <div class="form-group ">
+        <label class="col-md-3 " for="inline-radios">Status</label>
+        <div class="col-md-9 col-form-label">
+          <div class="form-check form-check-inline mr-2" id="status">
+            <input class="form-check-input" id="status_active" name="status" type="radio" value="1" checked="checked">
+            <label class="form-check-label" for="status_active">Active</label>
+          </div>
+          <div class="form-check form-check-inline mr-3">
+            <input class="form-check-input" id="status_inactive" name="status" type="radio" value="0">
+            <label class="form-check-label" for="status_inactive">Inactive</label>
+          </div>          
+        </div>
+      </div>
+    
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+    &nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+  </div>
+</form>
+
+</div>

@@ -36,16 +36,16 @@
           </span>
         </div>      
         <div class="form-group">
-          <label for="nf-password">Role</label>
+          <label for="nf-password">Select Role</label>
           <select class="form-control"  formControlName="userType" placeholder="Select Role" >
             <option [value]="role._id" *ngFor="let role of roleList.result">{{role.roleName}}</option>
           </select>
           <span class="invalid-feedback" *ngIf="user.get('userType').hasError('required')" >Please enter your password</span>
         </div>
+        <div class="card-footer">
+          <button type="submit" [disabled]="user.invalid" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+          &nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+        </div>
       </form>
-    </div>
-    <div class="card-footer">
-      <button type="submit" [disabled]="user.invalid" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-      <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
     </div>
   </div>
