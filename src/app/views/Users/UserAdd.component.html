@@ -24,12 +24,12 @@
         </div>
         <div class="form-group">
           <label for="nf-password">Password</label>
-          <input type="text" id="nf-password" name="password" class="form-control" formControlName="password" placeholder="Enter Password.." autocomplete="password">
+          <input type="password" id="nf-password" name="password" class="form-control" formControlName="password" placeholder="Enter Password.." autocomplete="password">
           <span class="invalid-feedback" *ngIf="user.get('password').hasError('required')">Please enter your email</span>
         </div>
         <div class="form-group">
           <label for="nf-password">Confirm Password</label>
-          <input type="text" id="nf-password" name="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Enter Password.." autocomplete="password">
+          <input type="password" id="nf-confirmPassword" name="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Enter Password.." autocomplete="password">
           <span class="invalid-feedback" *ngIf="user.get('confirmPassword').invalid">
               <span *ngIf="user.get('confirmPassword').hasError('required')">Confirm password is required</span>
               <span *ngIf="user.get('confirmPassword').hasError('mismatchedPasswords')">Passwords do not match.</span>
@@ -43,6 +43,7 @@
           <span class="invalid-feedback" *ngIf="user.get('userType').hasError('required')" >Please enter your password</span>
         </div>
         <div class="card-footer">
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
           <button type="submit" [disabled]="user.invalid" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
           &nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
         </div>

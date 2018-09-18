@@ -7,9 +7,9 @@ module.exports = {
     ///Email setting
     'SMTP_HOST':'smtp.sendgrid.net',
     'SMTP_PORT': 587,
-    'SMTP_USERNAME': 'test',
-    'SMTP_PASSWORD': 'test123',
-    'SMTP_FROM_EMAIL': '"PeerShot 👻" peershot.com',
+    'SMTP_USERNAME': 'nishant_garg',
+    'SMTP_PASSWORD': 'newmediaguru1',
+    'SMTP_FROM_EMAIL': 'farhan.hashmi.newmediaguru@gmail.com',
     'cmsimage_path':'/var/www/html'   
 };
 

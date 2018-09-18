@@ -13,7 +13,7 @@ module.exports = {
         'USER_NOT_FOUND' : 'User not found',
         'USER_FOUND' : 'User found',
         'USER_DELETED_SUCCESS' : 'User has been deleted successfully.',
-        'FORGOT_PASSWORD_SUCCESS' : 'Email has been sent to the user.'
+        'FORGOT_PASSWORD_SUCCESS' : 'Peershot have sent an email to your registered Email ID, please  reset your password for login'
     },
     'ROLE' : {
         'ROLE_SUMMARY_FOUND' : 'Role summary found'

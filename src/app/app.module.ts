@@ -26,6 +26,7 @@ import { AlertService, AuthenticationService, UserService, CmsService,RoleServic
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
+import { ForgetPasswordComponent } from './views/forgetpassword/forgetpassword.component';
 import { RegisterComponent } from './views/register/register.component';
 import { TinymceModule } from 'angular2-tinymce';
 
@@ -74,6 +75,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     P404Component,
     P500Component,
     LoginComponent,
+    ForgetPasswordComponent,
     AlertComponent,
     RegisterComponent,
     AlertComponent

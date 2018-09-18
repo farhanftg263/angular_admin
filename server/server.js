@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var expressJwt = require('express-jwt');
 var config = require('config.json');
 var mongoose = require('mongoose');
+var path = require("path");
 
 //Set up default mongoose connection
 var mongoDB = config.connectionString;
@@ -23,6 +24,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.set('view engine', 'ejs');
+
+
 // use JWT auth to secure the api, the token can be passed in the authorization header or querystring
 app.use(expressJwt({
     secret: config.secret,
@@ -34,7 +40,7 @@ app.use(expressJwt({
         }
         return null;
     }
-}).unless({ path: ['/users/authenticate', '/users/register'] }));
+}).unless({ path: ['/users/authenticate', '/users/forgetpassword'] }));
 
 // routes
 app.use('/users', require('./controllers/users.controller'));

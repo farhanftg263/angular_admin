@@ -6,6 +6,7 @@ import { AlertService,UserService} from '../../_services';
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'UserSummary.component.html',
+  
 })
 
 export class UserSummaryComponent implements OnInit  {
@@ -35,7 +36,8 @@ export class UserSummaryComponent implements OnInit  {
 
     ngOnInit() {
       //get user list
-      this.userService.getAll().subscribe(
+      this.setPage(1);
+      this.userService.getAll(this.currentPage).subscribe(
         data => {
             this.userSummary = data;
             this.totalItems = this.userSummary.total;
@@ -56,6 +58,18 @@ export class UserSummaryComponent implements OnInit  {
     pageChanged(event: any): void {
       console.log('Page changed to: ' + event.page);
       console.log('Number items per page: ' + event.itemsPerPage);
+      this.userService.getAll(event.page).subscribe(
+        data => {
+            this.userSummary = data;
+            this.totalItems = this.userSummary.total;
+            this.currentPage = parseInt(this.userSummary.current);
+            
+            console.log(this.userSummary);
+        },
+        error => {
+            this.alertService.error(error);
+        }
+      )
     }
 
  }

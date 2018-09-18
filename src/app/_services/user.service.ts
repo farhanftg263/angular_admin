@@ -8,8 +8,8 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll() {
-        return this.http.get<User[]>(appConfig.apiUrl+'/users/?page=1');
+    getAll(page : number) {
+        return this.http.get<User[]>(appConfig.apiUrl+'/users/'+page);
     }
 
     getById(id: number) {

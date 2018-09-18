@@ -3,20 +3,22 @@ var validator = require('../middlewares/validation');
 var constant = require("../constant");
 var message = require("../validation_errors");
 var moment = require('moment-timezone');
+var require = require('email-templates').EmailTemplate;
 var nodemailer = require('nodemailer');
 
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('config.json');
 var express = require('express');
+var path = require("path");
 var router = express.Router();
 
 // routes
 router.post('/authenticate', authenticate);
 router.post('/', register);
-router.post('/forgotpassword',forgotpassword);
+router.post('/forgetpassword',forgotpassword);
 router.put('/reset/:_otp',resetPassword);
-router.get('/', summary);
+router.get('/:page', summary);
 router.get('/:_id', getCurrent);
 router.put('/:_id', update);
 router.delete('/:_id', _delete);
@@ -168,6 +170,7 @@ function register(req, res) {
 function summary(req, res) {
     var perPage = constant.PER_PAGE_RECORD
     var page = req.params.page || 1;
+    console.log("page "+req.params.page);
     User.find({})
         .populate('userType')
         .skip((perPage * page) - perPage)
@@ -306,6 +309,7 @@ function forgotpassword(req, res)
         }
         else{
             // send mail to user
+            var smtpTransport = require('nodemailer-smtp-transport');
             let transporter = nodemailer.createTransport({
                 host: constant.SMTP_HOST,
                 port: constant.SMTP_PORT,
@@ -315,19 +319,48 @@ function forgotpassword(req, res)
                     pass: constant.SMTP_PASSWORD // generated ethereal password
                 }
             });
-            host=req.get('host');
+
+            //create the path of email template folder 
+            var templateDir = path.join(__dirname, "../", 'templates', 'testMailTemplate')
+            console.log(templateDir)
+            var testMailTemplate = new EmailTemplate(templateDir)
+            var locals = {
+                userName: "XYZ" //dynamic data for bind into the template
+            };
+
+            testMailTemplate.render(locals, function (err, temp) {
+                if (err) {
+                    console.log("error", err);
+                }else {
+                    transporter.sendMail({
+                        from: constant.SMTP_FROM_EMAIL,
+                        to: 'nmg.farhan@gmail.com',
+                        subject: "test mail",
+                        text: "Hello world",
+                        html: temp.html
+                    },function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        }
+                        console.log('Message sent: ' + info.response);
+                    })
+                }
+            })
+            /*host=req.get('host');
             link="http://"+req.get('host')+"/user/verifyEmail/"+result._id;
             // setup email data with unicode symbols
+            var dear_var = 'Dear '+result.firstName+' '+result.lastName;
+            var ask_ques = 'Feel free to ask any query if you have @: contact@peershots.com';
             let mailOptions = {
                 from: constant.SMTP_FROM_EMAIL, // sender address
-                to: 'farhan.hashmi@@newmediaguru.net', // list of receivers
+                to: 'nmg.farhan@gmail.com', // list of receivers
                 subject: 'Please confirm your Email account ✔', // Subject line
                 text: 'Hello world?', // plain text body
-                html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+                html : dear_var+",<br> Please click below link to reset the password.<br><a href="+link+">Click Here</a><br>"+ask_ques+"<br>Best Regards,<br>Peershots"
             };
 
             // send mail with defined transport object
-            /*transporter.sendMail(mailOptions, (error, info) => {
+            transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     return console.log(error);
                 }
@@ -351,6 +384,7 @@ function forgotpassword(req, res)
     Modified By : Farhan
     Type: Public function for reset password
 */
+
 function resetPassword()
 {
     
