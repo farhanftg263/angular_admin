@@ -27,6 +27,7 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { ForgetPasswordComponent } from './views/forgetpassword/forgetpassword.component';
+import { ResetPasswordComponent } from './views/resetpassword/resetpassword.component';
 import { RegisterComponent } from './views/register/register.component';
 import { TinymceModule } from 'angular2-tinymce';
 
@@ -76,6 +77,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     P500Component,
     LoginComponent,
     ForgetPasswordComponent,
+    ResetPasswordComponent,
     AlertComponent,
     RegisterComponent,
     AlertComponent
