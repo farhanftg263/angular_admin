@@ -71,7 +71,7 @@ function authenticate(req, res)
                                 email: result.email,
                                 firstName: result.firstName,
                                 lastName: result.lastName,
-                                token: jwt.sign({ sub: result._id }, config.secret)
+                                token: jwt.sign({ sub: result._id }, config.secret, { expiresIn: '24h' })
                             }
                         });
                     } else {

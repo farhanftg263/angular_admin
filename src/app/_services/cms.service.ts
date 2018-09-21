@@ -8,11 +8,12 @@ import { appConfig } from '../app.config';
 export class CmsService {
     constructor(private http: HttpClient) { }
 
-    getAll() {
-        return this.http.get<Cms[]>(appConfig.apiUrl+'/cms/?page=1');
+    getAll(page : number) {
+        return this.http.get<Cms[]>(appConfig.apiUrl+'/cms/'+page);        
     }
 
-    getById(id: number) {
+    getById(id: string) {
+        console.log('services id: '+id);
         return this.http.get(appConfig.apiUrl+'/cms/' + id);
     }
 
@@ -24,7 +25,13 @@ export class CmsService {
         return this.http.put(appConfig.apiUrl+'/cms/' + cms.id, cms);
     }
 
-    delete(id: number) {
+    updateStatus(id: string, status:string) {
+        console.log('services id: '+id);
+        console.log('services status: '+status);
+    return this.http.put(appConfig.apiUrl+'/cms/status/' +id, {status:status});
+    }
+
+    delete(id: string) {
         return this.http.delete(appConfig.apiUrl+'/cms/' + id);
     }
 }

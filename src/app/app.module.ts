@@ -21,7 +21,8 @@ import { DefaultLayoutComponent } from './containers';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor } from './_helpers/index';
-import { AlertService, AuthenticationService, UserService, CmsService,RoleService, ValidationService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, CmsService,RoleService, ValidationService, 
+  EmailTemplateService,GlobalSettingService } from './_services/index';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -89,6 +90,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     ValidationService,
     UserService,
     CmsService,
+    EmailTemplateService,
+    GlobalSettingService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

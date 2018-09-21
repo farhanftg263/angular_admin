@@ -1,4 +1,4 @@
-﻿var Cms = require('../models/Cms')
+﻿var EmailTemplate = require('../models/EmailTemplate')
 var validator = require('../middlewares/validation');
 var constant = require("../constant");
 var message = require("../validation_errors");
@@ -10,34 +10,33 @@ var express = require('express');
 var router = express.Router();
 
 // routes
-router.get('/:page', CmsSummary);
-router.post('/', addCms);
+router.get('/', EmailTemplateSummary);
+router.post('/', addEmailTemplate);
 router.get('/:_id', getCurrent);
-router.put('/status/:_id', changeStatusCms);
-router.put('/:_id', updateCms);
-router.delete('/:_id', _deleteCms);
+router.put('/:_id', updateEmailTemplate);
+router.put('/status/:_id', changeStatusEmailTemplate);
+router.delete('/:_id', _deleteEmailTemplate);
 
 module.exports = router;
 
 /*
- Function Name : CmsSummary
+ Function Name : EmailTemplateSummary
  Author  : Pradeep
- Created : 17-09-2018
+ Created : 19-09-2018
 */
-function CmsSummary(req, res) {
+function EmailTemplateSummary(req, res) {
     var perPage = constant.PER_PAGE_RECORD
     var page = req.params.page || 1;
-    console.log("page "+req.params.page);
-    Cms.find({})
+    EmailTemplate.find({})
         .skip((perPage * page) - perPage)
         .limit(perPage)
-        .exec(function(err, allcms) {
-            Cms.count().exec(function(err, count) {
+        .exec(function(err, allemailTemplate) {
+            EmailTemplate.count().exec(function(err, count) {
                 if (err) return next(err)
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.CMS.CMS_SUMMARY_FOUND,
-                    result: allcms,
+                    message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_SUMMARY_FOUND,
+                    result: allemailTemplate,
                     total : count,
                     current: page,
                     perPage: perPage,
@@ -48,19 +47,19 @@ function CmsSummary(req, res) {
 }
 
 /*
- Function Name : Get getCurrent
- Author  : Pradeep Chaurasia
- Created : 11-09-2018
+ Function Name : getCurrent
+ Author  : Pradeep
+ Created : 19-09-2018
 */
 function getCurrent(req, res) {
     var id = req.params._id;
     if (!id) {
         return res.json({
             code : constant.ERROR,
-            message : message.CMS.ID_PARAMETER_REQUIRED
+            message : message.EMAIL_TEMPLATE.ID_PARAMETER_REQUIRED
         });
     }
-	Cms.findOne({_id:id}, (err, result) => {
+	EmailTemplate.findOne({_id:id}, (err, result) => {
         if (err) {
         return res.send({
             code: constant.ERROR,
@@ -70,12 +69,12 @@ function getCurrent(req, res) {
             if (!result) {
                 res.json({
                     code: constant.ERROR,
-                    message: message.CMS.CMS_NOT_FOUND,
+                    message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_NOT_FOUND,
                 });
             }else {
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.CMS.CMS_SUMMARY_FOUND,
+                    message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_FOUND,
                     result: result
                 });
 
@@ -85,32 +84,32 @@ function getCurrent(req, res) {
 }
 
 /*
- Function Name : AddCMS
- Author  : Pradeep
+ Function Name : AddEmailTemplate
+ Author  : Pradeep Chaurasia
  Created : 18-09-2018
 */
 
-function addCms(req, res) {
+function addEmailTemplate(req, res) {
     console.log('<<<<<<<<<<<', JSON.stringify(req.body))
-    if (!req.body.pageName && !req.body.pageContent && !req.body.status) {
+    if (!req.body.emailTitle && !req.body.emailSubject && !req.body.emailContent && !req.body.status) {
         return res.send({
         code: constant.ERROR,
         message: constant.INTERNAL_SERVER_ERROR
         })
     }
     const data = req.body;
-    const flag = validator.validate_all_request(data, ['pageName', 'pageContent']);
+    const flag = validator.validate_all_request(data, ['emailTitle','emailSubject', 'emailContent']);
     if (flag) {
         return res.json(flag);
     }
-    Cms.findOne({ pageName: req.body.pageName }, (err, result) => {
+    EmailTemplate.findOne({ emailTitle: req.body.emailTitle }, (err, result) => {
         if (result) {
             return res.send({
                 code: constant.ERROR,
-                message: message.CMS.PAGE_NAME_ALREADY_EXIST
+                message: message.EMAIL_TEMPLATE.EMAIL_TITLE_ALREADY_EXIST
             })
         } else {
-            Cms.create(req.body, (err, result) => {
+            EmailTemplate.create(req.body, (err, result) => {
                 if (err) {
                     return res.send({
                         errr : err,
@@ -120,7 +119,7 @@ function addCms(req, res) {
                 } else {
                     return res.send({
                         code: constant.SUCCESS,
-                        message: message.CMS.INSERT_SUCCESS,
+                        message: message.EMAIL_TEMPLATE.INSERT_SUCCESS,
                         result: result
                     })
                 }
@@ -130,15 +129,15 @@ function addCms(req, res) {
 }
 
 /*
-    Function Name : Get updateCms
+    Function Name : updateEmailTemplate
     Author  : Pradeep Chaurasia
-    Created : 17-09-2018
+    Created : 19-09-2018
     Modified By : Pradeep Chaurasia
-    Type: Public function for update cms page
+    Type: Public function for update email template
 */
-function updateCms(req, res) {    
+function updateEmailTemplate(req, res) {
 
-    Cms.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
+    EmailTemplate.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
         if(err){
             return res.send({
                 code: constant.ERROR,
@@ -149,12 +148,12 @@ function updateCms(req, res) {
             {
                 res.json({
                     code: constant.ERROR,
-                    message: message.CMS.CMS_NOT_FOUND
+                    message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_NOT_FOUND
                 });
             }else {
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.CMS.UPDATE_SUCCESS,
+                    message: message.EMAIL_TEMPLATE.UPDATE_SUCCESS,
                     result: result
                 });
         
@@ -163,45 +162,45 @@ function updateCms(req, res) {
     })
 }
 /*
-    Function Name : _deleteCms
+    Function Name : delete email template
     Author  : Pradeep Chaurasia
-    Created : 17-09-2018
+    Created : 19-09-2018
     Modified By : Pradeep Chaurasia
-    Type: Public function for delete cms page
+    Type: Public function for delete email template
 */
-function _deleteCms(req, res) {
+function _deleteEmailTemplate(req, res) {
 
-    Cms.findByIdAndRemove(req.params._id, (err,result) => {
+    EmailTemplate.findByIdAndRemove(req.params._id, (err,result) => {
         if(err)
         {
             return res.json({
                 code: constant.ERROR,
-                message: message.CMS.CMS_NOT_FOUND
+                message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_NOT_FOUND
             });
         }
         return res.json({
             code: constant.SUCCESS,
-            message: message.CMS.CMS_DELETED_SUCCESS,
+            message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_DELETED_SUCCESS,
             result: result
         });
     })
 }
 
 /*
-    Function Name : changeStatusCms
+    Function Name : changeStatusEmailTemplate
     Author  : Pradeep Chaurasia
     Created : 20-09-2018
     Modified By : Pradeep Chaurasia
-    Type: Public function for change status of cms page
+    Type: Public function for change status of email template
 */
-function changeStatusCms(req,res){ 
+function changeStatusEmailTemplate(req,res){ 
     console.log('========='+req.params._id); 
     console.log('========= body'+req.body.status); 
 
     var myquery = { _id: req.params._id };
     var newvalues = { $set: { status: req.body.status } };
   
-    Cms.updateOne(myquery, newvalues, { new:true },(err,result) => {
+    EmailTemplate.updateOne(myquery, newvalues, { new:true },(err,result) => {
         if(err){
             return res.send({
                 code: constant.ERROR,
@@ -212,12 +211,12 @@ function changeStatusCms(req,res){
             {
                 res.json({
                     code: constant.ERROR,
-                    message: message.CMS.CMS_NOT_FOUND
+                    message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_NOT_FOUND
                 });
             }else {
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.CMS.UPDATE_STATUS,
+                    message: message.EMAIL_TEMPLATE.UPDATE_STATUS,
                     result: result
                 });
         
@@ -226,3 +225,4 @@ function changeStatusCms(req,res){
     }) 
 
 }
+

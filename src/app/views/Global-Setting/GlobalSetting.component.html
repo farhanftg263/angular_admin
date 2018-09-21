@@ -1,0 +1,37 @@
+<div class="card">
+    <div class="card-header">
+      <strong></strong> Global Setting
+    </div>
+    <form novalidate [formGroup]="globalSetting" (ngSubmit)="update(globalSetting)">
+    <div class="card-body">    
+        <div class="form-group">
+          <label for="nf-photoPurchasePoints">Peer Points for photo purchase</label>
+          <input type="text" id="nf-photoPurchasePoints" formControlName="photoPurchasePoints" class="form-control" maxlength="10" minlength="1" placeholder="Enter no. of points required for each photo purchase..">          
+        </div>
+        <div class="form-group">
+            <label for="nf-pointsRecievedPhoto">Peer Points received on each photo sell</label>
+            <input type="text" id="nf-pointsRecievedPhoto" formControlName="pointsRecievedPhoto" class="form-control" maxlength="10" minlength="1" placeholder="Enter no. of points recieved on each photo sell..">          
+        </div>
+        <div class="form-group">
+            <label for="nf-pointsRecievedShare">Peer Points received on each photo share</label>
+            <input type="text" id="nf-pointsRecievedShare" formControlName="pointsRecievedShare" class="form-control" maxlength="10" minlength="1" placeholder="Enter no. of points recieved on each photo share..">          
+        </div>
+
+        <div class="form-group">
+            <label for="nf-pointsRecievedView">Peer Points received on each photo view</label>
+            <input type="text" id="nf-pointsRecievedView" formControlName="pointsRecievedView" class="form-control" maxlength="10" minlength="1" placeholder="Enter no. of points recieved on each photo view..">          
+        </div>
+
+        <div class="form-group">
+            <label for="nf-pointsRecievedSignup">Default Peer Points recieved on signup</label>
+            <input type="text" id="nf-pointsRecievedSignup" formControlName="pointsRecievedSignup" class="form-control" maxlength="10" minlength="1" placeholder="Enter no. of points recieved on signup..">          
+        </div>
+      
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Update</button>
+     
+    </div>
+  </form>
+  
+  </div>

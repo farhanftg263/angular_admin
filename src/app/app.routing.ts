@@ -12,6 +12,14 @@ import { ResetPasswordComponent } from './views/resetpassword/resetpassword.comp
 
 import { AuthGuard } from './_guards/index';
 
+import { UserSummaryComponent } from './views/Users/UserSummary.component';
+import { UserAddComponent } from './views/Users/UserAdd.component';
+import { CmsSummaryComponent } from './views/Cms/CmsSummary.component';
+import { CmsAddComponent } from './views/Cms/CmsAdd.component';
+import { EmailTemplateSummaryComponent } from './views/Email-Template/EmailTemplateSummary.component';
+import { EmailTemplateAddComponent } from './views/Email-Template/EmailTemplateAdd.component';
+import { GlobalSettingComponent } from './views/Global-Setting/GlobalSetting.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -68,6 +76,14 @@ export const routes: Routes = [
       {
         path: 'cms',
         loadChildren: './views/Cms/cms.module#CmsModule'
+      },
+      {
+        path: 'email_template',
+        loadChildren: './views/Email-Template/email-template.module#EmailTemplateModule'
+      },
+      {
+        path: 'global_setting',
+        loadChildren: './views/Global-Setting/global-setting.module#GlobalSettingModule'
       },
       {
         path: 'buttons',
