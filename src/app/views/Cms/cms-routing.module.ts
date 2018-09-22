@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CmsAddComponent } from './CmsAdd.component';
 import { CmsSummaryComponent } from './CmsSummary.component';
+import { CmsEditComponent } from './CmsEdit.component';
 const routes: Routes = [
   {
     path:'',
@@ -22,6 +23,20 @@ const routes: Routes = [
         component: CmsAddComponent,
         data: {
           title: 'Add CMS'
+        }
+      },
+      {
+        path: 'edit/:id',
+        component: CmsEditComponent,
+        data: {
+          title: 'Edit CMS'
+        }
+      },
+      {
+        path: 'summary/delete/:id',
+        component: CmsSummaryComponent,
+        data: {
+          title: 'Delete CMS'
         }
       }
     ]

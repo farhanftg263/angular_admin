@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Edit</strong> Email Template
+  </div>
+  <form novalidate [formGroup]="emailTemplate" (ngSubmit)="edit(emailTemplate)">
+  <div class="card-body">    
+      <div class="form-group">
+        <label for="nf-emailTitle">Email Title</label>
+        <input type="text" id="nf-emailTitle" formControlName="emailTitle" class="form-control" maxlength="60" minlength="2" placeholder="Enter email title..">
+        <span class="invalid-feedback" *ngIf="emailTemplate.get('emailTitle').hasError('required') && emailTemplate.invalid">Please enter email title.</span>
+      </div>
+      <div class="form-group">
+        <label for="nf-emailSubject">Email Subject</label>
+        <input type="text" id="nf-emailSubject" formControlName="emailSubject" class="form-control" maxlength="100" minlength="2" placeholder="Enter email subject..">
+        <span class="invalid-feedback" *ngIf="emailTemplate.get('emailSubject').hasError('required') && emailTemplate.invalid">Please enter email subject.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="nf-emailContent">Email Content</label>
+        <app-tinymce formControlName="emailContent"></app-tinymce>
+       <span class="invalid-feedback" *ngIf="emailTemplate.get('emailContent').hasError('required') && emailTemplate.invalid">Please enter email content.</span>           
+      </div>
+          
+      <div class="form-group ">
+        <label class="col-md-3 " for="inline-radios">Status</label>
+        <div class="col-md-9 col-form-label">
+          <div class="form-check form-check-inline mr-2" id="status">
+            <input class="form-check-input" id="status_active" formControlName="status" type="radio" value="1" checked="checked">
+            <label class="form-check-label" for="status_active">Active</label>
+          </div>
+          <div class="form-check form-check-inline mr-3">
+            <input class="form-check-input" id="status_inactive" formControlName="status" type="radio" value="0">
+            <label class="form-check-label" for="status_inactive">Inactive</label>
+          </div>          
+        </div>
+      </div>
+    
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+    &nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+  </div>
+</form>
+
+</div>

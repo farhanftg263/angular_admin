@@ -18,13 +18,15 @@ export class CmsAddComponent implements OnInit  {
   loading = false;
   returnUrl : string;
   cmsAdd : any = {};
+  cmsAddResponse : any = {};
   message: string;
   cms: FormGroup;
-    cmsAddForm: FormGroup;
-    submitted = false;
+  cmsAddForm: FormGroup;
+  submitted = false;
       constructor(
         private router : Router,
-        private alertService : AlertService,       
+        private alertService : AlertService,
+        private cmsService : CmsService,       
         private validationService : ValidationService,
         private fb: FormBuilder
       ){}
@@ -44,9 +46,10 @@ export class CmsAddComponent implements OnInit  {
          // Form validation
          this.cms = this.fb.group({
           "pageName": ['', [Validators.required, Validators.minLength(2)]],
-          "contentControl": ['',[Validators.required,Validators.minLength(2)]],
+          "pageContent": ['',[Validators.required,Validators.minLength(2)]],
           "metaTitle" : [''],
-          "metaDescription" : ['']         
+          "metaDescription" : [''],
+          "status" : ['1']         
       });
     }
 
@@ -58,15 +61,35 @@ export class CmsAddComponent implements OnInit  {
       add()
       {
           this.submitted = true;
+          this.loading = true;
           
           if(this.cms.invalid)
-          { alert('nn');
-          
+          {           
               return;
 
           }
           console.log(this.cms.value);
-          alert("Success name"+this.cms.value.pageName+' meta title: '+this.cms.value.metaTitle+' meta content: '+this.cms.value.metaDescription+' status: '+this.cms.value.status);
+          //alert("Success name"+this.cms.value.pageName+' meta title: '+this.cms.value.metaTitle+' meta content: '+this.cms.value.metaDescription+' status: '+this.cms.value.status);
+
+          this.cmsService.create(this.cms.value).subscribe(
+            data => {
+                this.cmsAddResponse = data;
+                if(this.cmsAddResponse.code == 200)
+                { 
+                    this.alertService.success(this.cmsAddResponse.message,true);
+                    this.loading = false;
+                    this.router.navigate(['cms/summary']);
+                }
+                else{ 
+                    this.alertService.error(this.cmsAddResponse.message);
+                    this.loading = false;
+                }
+            },
+            error => { 
+                console.log(error);
+                this.alertService.error(error);
+                this.loading = false;
+            })
       }
      
     }

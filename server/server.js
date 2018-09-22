@@ -40,12 +40,14 @@ app.use(expressJwt({
         }
         return null;
     }
-}).unless({ path: ['/users/authenticate', '/users/forgetpassword'] }));
+}).unless({ path: ['/users/authenticate', '/users/forgetpassword','/users/verifypassword','/users/resetpassword:_otp'] }));
 
 // routes
 app.use('/users', require('./controllers/users.controller'));
 app.use('/roles', require('./controllers/roles.controller'));
 app.use('/cms', require('./controllers/cms.controller'));
+app.use('/email_template', require('./controllers/emailTemplate.controller'));
+app.use('/global_setting', require('./controllers/globalSetting.controller'));
 
 // error handler
 app.use(function (err, req, res, next) {

@@ -17,7 +17,8 @@ var router = express.Router();
 router.post('/authenticate', authenticate);
 router.post('/', register);
 router.post('/forgetpassword',forgotpassword);
-router.put('/reset/:_otp',resetPassword);
+router.post('/verifypassword',verifyPassword);
+router.put('/resetpassword/:_otp',resetPassword);
 router.get('/:page', summary);
 router.get('/:_id', getCurrent);
 router.put('/:_id', update);
@@ -70,7 +71,7 @@ function authenticate(req, res)
                                 email: result.email,
                                 firstName: result.firstName,
                                 lastName: result.lastName,
-                                token: jwt.sign({ sub: result._id }, config.secret)
+                                token: jwt.sign({ sub: result._id }, config.secret, { expiresIn: '24h' })
                             }
                         });
                     } else {
@@ -378,6 +379,41 @@ function forgotpassword(req, res)
     })
 }
 /*
+    Function Name : Verify Password
+    Author : Farhan
+    Created : 19-03-2018
+    Type : Verify password for forget password email request
+*/
+function verifyPassword(req, res)
+{
+    User.findOne({email: req.body.email,accessToken: req.body.token},(err,result) => {
+        if(err)
+        {
+            res.send({
+                code : constant.ERROR,
+                message : constant.INTERNAL_SERVER_ERROR
+            });
+        }
+        else{
+            if(!result)
+            {
+                res.json({
+                    code : constant.ERROR,
+                    message : message.USER.FORGOT_PASSWORD_TOKEN_NOT_VERIFY
+                });
+            }
+            else{
+                return res.json({
+                    code : constant.SUCCESS,
+                    message : message.USER.FORGOT_PASSWORD_TOKEN_VERIFIED,
+                    result : result
+                });
+            }
+        }
+    })
+}
+
+/*
     Function Name : Reset Password
     Author  : Farhan
     Created : 11-03-2018
@@ -385,7 +421,30 @@ function forgotpassword(req, res)
     Type: Public function for reset password
 */
 
-function resetPassword()
+function resetPassword(res , req)
 {
-    
+    otp = res.params._otp;
+    User.findOneAndUpdate({ accessToken:otp }, req.body, { new:true },(err,result) => {
+        if(err){
+            return res.send({
+                code: constant.ERROR,
+                message: constant.INTERNAL_SERVER_ERROR
+            });
+        }else {
+            if (!result) 
+            {
+                res.json({
+                    code: constant.ERROR,
+                    message: message.USER.USER_NOT_FOUND
+                });
+            }else {
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: message.USER.USER_FOUND,
+                    result: result
+                });
+        
+            }
+        }
+    })
 }

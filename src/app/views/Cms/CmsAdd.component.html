@@ -12,29 +12,27 @@
 
       <div class="form-group">
         <label for="nf-pageContent">Page Content</label>
-        <app-tinymce formControlName="contentControl"></app-tinymce>
-       <span class="invalid-feedback" *ngIf="cms.get('contentControl').hasError('required') && cms.invalid">Please enter page content.</span>           
+        <app-tinymce formControlName="pageContent"></app-tinymce>
+       <span class="invalid-feedback" *ngIf="cms.get('pageContent').hasError('required') && cms.invalid">Please enter page content.</span>           
       </div>
 
       <div class="form-group">
         <label for="nf-metaTitle">Meta Title</label>
-        <input type="text" formControlName = "metaTitle"   id="nf-metaTitle" maxlength="60" minlength="2" class="form-control" placeholder="Enter Page Meta Title..">
-        
+        <input type="text" formControlName = "metaTitle"   id="nf-metaTitle" maxlength="60" minlength="2" class="form-control" placeholder="Enter Page Meta Title..">        
       </div>
       <div class="form-group">
         <label for="nf-metaDescription">Meta Description</label>
-        <input type="text" formControlName = "metaDescription" id="nf-metaDescription" name="metaDescription" maxlength="60" minlength="2" class="form-control" placeholder="Enter Page Meta Description..">
-        
+        <input type="text" formControlName = "metaDescription" id="nf-metaDescription" name="metaDescription" maxlength="60" minlength="2" class="form-control" placeholder="Enter Page Meta Description..">        
       </div>      
       <div class="form-group ">
         <label class="col-md-3 " for="inline-radios">Status</label>
         <div class="col-md-9 col-form-label">
           <div class="form-check form-check-inline mr-2" id="status">
-            <input class="form-check-input" id="status_active" name="status" type="radio" value="1" checked="checked">
+            <input class="form-check-input" id="status_active" formControlName="status" type="radio" value="1" checked="checked">
             <label class="form-check-label" for="status_active">Active</label>
           </div>
           <div class="form-check form-check-inline mr-3">
-            <input class="form-check-input" id="status_inactive" name="status" type="radio" value="0">
+            <input class="form-check-input" id="status_inactive" formControlName="status" type="radio" value="0">
             <label class="form-check-label" for="status_inactive">Inactive</label>
           </div>          
         </div>

@@ -29,4 +29,14 @@ export class AuthenticationService {
     forgetPassword(email:string){
         return this.http.post<any>(appConfig.apiUrl+'/users/forgetpassword',{email:email});
     }
+    // verify password
+    verifyPassword(email:string,token:string)
+    {
+        return this.http.post<any>(appConfig.apiUrl+'/users/verifypassword',{email:email,token:token});
+    }
+    //reset password
+    resetPassword(_otp:string,password:string)
+    {
+        return this.http.put(appConfig.apiUrl+'/users/resetpassword' + _otp, {password:password});
+    }
 }

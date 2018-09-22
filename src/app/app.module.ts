@@ -21,12 +21,14 @@ import { DefaultLayoutComponent } from './containers';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor } from './_helpers/index';
-import { AlertService, AuthenticationService, UserService, CmsService,RoleService, ValidationService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, CmsService,RoleService, ValidationService, 
+  EmailTemplateService,GlobalSettingService } from './_services/index';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { ForgetPasswordComponent } from './views/forgetpassword/forgetpassword.component';
+import { ResetPasswordComponent } from './views/resetpassword/resetpassword.component';
 import { RegisterComponent } from './views/register/register.component';
 import { TinymceModule } from 'angular2-tinymce';
 
@@ -76,6 +78,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     P500Component,
     LoginComponent,
     ForgetPasswordComponent,
+    ResetPasswordComponent,
     AlertComponent,
     RegisterComponent,
     AlertComponent
@@ -87,6 +90,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     ValidationService,
     UserService,
     CmsService,
+    EmailTemplateService,
+    GlobalSettingService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

@@ -50,12 +50,12 @@ export const navItems = [
       },
       {
         name: 'Manage Global App Settings',
-        url: '/base/forms',
+        url: '/global_setting',
         icon: 'icon-puzzle'
       },
       {
         name: 'Manage Email Template',
-        url: '/base/forms',
+        url: '/email_template/summary',
         icon: 'icon-puzzle'
       },
       
