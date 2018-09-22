@@ -3,7 +3,7 @@ var validator = require('../middlewares/validation');
 var constant = require("../constant");
 var message = require("../validation_errors");
 var moment = require('moment-timezone');
-var require = require('email-templates').EmailTemplate;
+var EmailTemplate = require('email-templates').EmailTemplate;
 var nodemailer = require('nodemailer');
 
 var jwt = require('jsonwebtoken');
