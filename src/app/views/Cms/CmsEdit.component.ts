@@ -70,12 +70,10 @@ export class CmsEditComponent implements OnInit  {
         },
         error => {
             this.alertService.error(error);
-        }
-
-        
+        }        
       );    
 
-         // Form validation
+     // Form validation
          this.cms = this.fb.group({
           "pageName": ['', [Validators.required, Validators.minLength(2)]],
           "pageContent": ['',[Validators.required,Validators.minLength(2)]],

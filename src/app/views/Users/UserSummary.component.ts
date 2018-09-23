@@ -15,7 +15,7 @@ export class UserSummaryComponent implements OnInit  {
   returnUrl : string;
   userSummary : any = {};
   message: string;
-
+  userStatus : boolean = false;
   totalItems: number = 64;
   currentPage: number   = 4;
   smallnumPages: number = 0;
@@ -71,5 +71,17 @@ export class UserSummaryComponent implements OnInit  {
         }
       )
     }
+    /*
+       Function Type : Change Status
+       Author : Farhan
+       Created On : 24-09-2018
+    */
+   changeStatus(user)
+   {
+      user.userStatus =  parseInt(user.userStatus) == 1 ? 0 : 1;
+      this.userService.status(user._id,user.userStatus).subscribe(data => {
+          console.log(data);
+      })
+   }
 
  }

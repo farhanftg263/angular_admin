@@ -40,7 +40,7 @@ app.use(expressJwt({
         }
         return null;
     }
-}).unless({ path: ['/users/authenticate', '/users/forgetpassword','/users/verifypassword','/users/resetpassword:_otp'] }));
+}).unless({ path: ['/users/authenticate', '/users/forgetpassword','/users/verifypassword','/users/resetpassword'] }));
 
 // routes
 app.use('/users', require('./controllers/users.controller'));

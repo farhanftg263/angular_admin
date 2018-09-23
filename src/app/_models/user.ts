@@ -5,4 +5,5 @@
     firstName: string;
     lastName: string;
     userType: string;
+    userStatus : number;
 }

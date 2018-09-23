@@ -27,4 +27,7 @@ export class UserService {
     delete(id: number) {
         return this.http.delete(appConfig.apiUrl+'/users/' + id);
     }
+    status(id: string, status:number) {
+       return this.http.put(appConfig.apiUrl+'/users/status/' +id, {status:status});
+    }
 }

@@ -71,7 +71,7 @@ var UserSchema = new Schema(
     //User type has 2 option 1=>admin,0=>users
     userType:[{ type: Schema.Types.ObjectId, ref: 'Role' }],
     userStatus:{
-    type:String,
+    type:Number,
     trim:true,
     sparse:true,
     default:0

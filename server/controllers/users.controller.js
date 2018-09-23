@@ -13,12 +13,13 @@ var express = require('express');
 var path = require("path");
 var router = express.Router();
 
-// routes
+// routes 
 router.post('/authenticate', authenticate);
 router.post('/', register);
 router.post('/forgetpassword',forgotpassword);
 router.post('/verifypassword',verifyPassword);
-router.put('/resetpassword/:_otp',resetPassword);
+router.post('/resetpassword',resetPassword);
+router.put('/status/:_id',status);
 router.get('/:page', summary);
 router.get('/:_id', getCurrent);
 router.put('/:_id', update);
@@ -310,11 +311,11 @@ function forgotpassword(req, res)
         }
         else{
             // send mail to user
-            var smtpTransport = require('nodemailer-smtp-transport');
+           
             let transporter = nodemailer.createTransport({
                 host: constant.SMTP_HOST,
                 port: constant.SMTP_PORT,
-                secure: false, // true for 465, false for other ports
+                secure: true, // true for 465, false for other ports
                 auth: {
                     user: constant.SMTP_USERNAME, // generated ethereal user
                     pass: constant.SMTP_PASSWORD // generated ethereal password
@@ -347,29 +348,7 @@ function forgotpassword(req, res)
                     })
                 }
             })
-            /*host=req.get('host');
-            link="http://"+req.get('host')+"/user/verifyEmail/"+result._id;
-            // setup email data with unicode symbols
-            var dear_var = 'Dear '+result.firstName+' '+result.lastName;
-            var ask_ques = 'Feel free to ask any query if you have @: contact@peershots.com';
-            let mailOptions = {
-                from: constant.SMTP_FROM_EMAIL, // sender address
-                to: 'nmg.farhan@gmail.com', // list of receivers
-                subject: 'Please confirm your Email account ✔', // Subject line
-                text: 'Hello world?', // plain text body
-                html : dear_var+",<br> Please click below link to reset the password.<br><a href="+link+">Click Here</a><br>"+ask_ques+"<br>Best Regards,<br>Peershots"
-            };
-
-            // send mail with defined transport object
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return console.log(error);
-                }
-                console.log('Message sent: %s', info.messageId);
-                // Preview only available when sending through an Ethereal account
-                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-            });*/
-
+            
             return res.send({
                 code: constant.SUCCESS,
                 message: message.USER.FORGOT_PASSWORD_SUCCESS,
@@ -423,7 +402,8 @@ function verifyPassword(req, res)
 
 function resetPassword(res , req)
 {
-    otp = res.params._otp;
+    otp = res.body._otp;
+    req.body.accessToken = ''; 
     User.findOneAndUpdate({ accessToken:otp }, req.body, { new:true },(err,result) => {
         if(err){
             return res.send({
@@ -447,4 +427,45 @@ function resetPassword(res , req)
             }
         }
     })
+}
+
+/*
+    Function Name : Change Status
+    Author  : Farhan
+    Created : 22-09-2018
+    Modified By : Farhan Hashmi
+    Type: Public function for change status of users page
+*/
+function status(req,res){ 
+    console.log('========='+req.params._id); 
+    console.log('========= body'+req.body); 
+
+    var myquery = { _id: req.params._id };
+    var newvalues = { $set: { userStatus: req.body.status } };
+  
+    User.updateOne(myquery, newvalues, { new:true },(err,result) => {
+        if(err){
+            return res.send({
+                code: constant.ERROR,
+                message: constant.INTERNAL_SERVER_ERROR
+            });
+        }else {
+            if (!result) 
+            {
+                res.json({
+                    code: constant.ERROR,
+                    message: message.USER.USER_NOT_FOUND
+                });
+            }else {
+                let status = result.userStatus == 1 ? message.USER.USER_STATUS_ACTIVE: message.USER.USER_STATUS_INACTIVE;
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: status,
+                    result: result
+                });
+        
+            }
+        }
+    }) 
+
 }
