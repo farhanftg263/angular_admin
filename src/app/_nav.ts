@@ -50,7 +50,12 @@ export const navItems = [
       },
       {
         name: 'Manage Global App Settings',
-        url: '/global_setting',
+        url: '/global_setting/summary',
+        icon: 'icon-puzzle'
+      },
+      {
+        name: 'Manage Price',
+        url: '/manage_price/summary',
         icon: 'icon-puzzle'
       },
       {

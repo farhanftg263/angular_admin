@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UserAddComponent } from './UserAdd.component';
 import { UserSummaryComponent } from './UserSummary.component';
 import { AdminUserRoutingModule } from './adminuser-routing.module';
+import { UserEditComponent } from './UserEdit.component';
 
 // Pagination Component
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -20,6 +21,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
   declarations: [ 
     UserAddComponent,
     UserSummaryComponent,
+    UserEditComponent
   ]
 })
 export class AdminUserModule { }

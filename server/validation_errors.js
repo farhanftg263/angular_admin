@@ -18,7 +18,8 @@ module.exports = {
         'FORGOT_PASSWORD_TOKEN_VERIFIED' : 'Account is verified',
         'USER_STATUS_ACTIVE' : 'Úser status is active',
         'USER_STATUS_INACTIVE' : 'User status in inactive',
-        'USER_NOT_FOUND' : 'User not found'
+        'USER_NOT_FOUND' : 'User not found',
+        'USER_UPDATE_SUCCESS' : 'User has been updated successfully'
     },
     'ROLE' : {
         'ROLE_SUMMARY_FOUND' : 'Role summary found'
@@ -54,7 +55,20 @@ module.exports = {
     'ID_PARAMETER_REQUIRED' : '_id parameter is required',
     'GLOBAL_SETTING_FOUND' : 'Global setting found',
     'GLOBAL_SETTING_NOT_FOUND' : 'Global setting not found',
-    'GLOBAL_SETTING_FOUND' : 'Global setting found',          
-}
+              
+},
+    'MANAGE_PRICE' : {
+      'INSERT_SUCCESS' : 'Price has been added successfully',
+      'UPDATE_SUCCESS' : 'Price has been updated successfully',        
+      'PRICE_REQUIRED' : 'Price is required',
+      'PEER_POINTS_REQUIRED' : 'Peer points is required',        
+      'PRICE_ALREADY_EXIST' : 'Price is already exist',        
+      'ID_PARAMETER_REQUIRED' : '_id parameter is required',
+      'PRICE_SUMMARY_FOUND' : 'Price summary found',
+      'PRICE_NOT_FOUND' : 'Price not found',
+      'PRICE_FOUND' : 'Price found',
+      'PRICE_DELETED_SUCCESS' : 'Price has been deleted successfully.',
+      'UPDATE_STATUS' :'Status has been changed successfully',        
+  },
 };
 

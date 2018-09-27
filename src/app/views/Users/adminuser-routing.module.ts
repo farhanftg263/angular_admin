@@ -4,6 +4,7 @@ import { Routes,
 
 import { UserAddComponent } from './UserAdd.component';
 import { UserSummaryComponent } from './UserSummary.component';
+import { UserEditComponent } from './UserEdit.component';
 const routes: Routes = [
   {
     path:'',
@@ -23,6 +24,13 @@ const routes: Routes = [
         component: UserAddComponent,
         data: {
           title: 'Add User'
+        }
+      },
+      {
+        path: 'edit/:id',
+        component: UserEditComponent,
+        data: {
+          title: 'Edit User'
         }
       }
     ]

@@ -4,10 +4,18 @@ import { GlobalSettingComponent } from './GlobalSetting.component';
 const routes: Routes = [
   {
     path:'',
-    component: GlobalSettingComponent,
     data:{
-      title : 'Global Setting'
-    }  
+      title : 'Manage Master'
+    },
+    children:[
+      {
+        path: 'summary',
+        component: GlobalSettingComponent,
+        data: {
+          title: 'Global Setting'
+        }
+      },
+    ]  
   },
 ];
 

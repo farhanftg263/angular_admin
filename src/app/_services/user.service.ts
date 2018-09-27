@@ -12,8 +12,8 @@ export class UserService {
         return this.http.get<User[]>(appConfig.apiUrl+'/users/'+page);
     }
 
-    getById(id: number) {
-        return this.http.get(appConfig.apiUrl+'/users/' + id);
+    getById(id: string) {
+        return this.http.get(appConfig.apiUrl+'/users/current/' + id);
     }
 
     create(user: User) {
@@ -24,7 +24,7 @@ export class UserService {
         return this.http.put(appConfig.apiUrl+'/users/' + user.id, user);
     }
 
-    delete(id: number) {
+    delete(id: string) {
         return this.http.delete(appConfig.apiUrl+'/users/' + id);
     }
     status(id: string, status:number) {

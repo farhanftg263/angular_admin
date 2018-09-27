@@ -10,9 +10,10 @@ var express = require('express');
 var router = express.Router();
 
 // routes
-router.get('/', EmailTemplateSummary);
+router.get('/:page/:sortfields/:ordering', EmailTemplateSummary);
 router.post('/', addEmailTemplate);
 router.get('/:_id', getCurrent);
+router.get('/edit/:_id', getCurrent);
 router.put('/:_id', updateEmailTemplate);
 router.put('/status/:_id', changeStatusEmailTemplate);
 router.delete('/:_id', _deleteEmailTemplate);
@@ -27,9 +28,18 @@ module.exports = router;
 function EmailTemplateSummary(req, res) {
     var perPage = constant.PER_PAGE_RECORD
     var page = req.params.page || 1;
+    var sortObject = {};
+    var sortfields=req.params.sortfields.trim();   
+    var ordering=req.params.ordering;  
+    
+    if(ordering==0){
+        ordering='-1';
+    }
+    sortObject[sortfields] = ordering;
     EmailTemplate.find({})
         .skip((perPage * page) - perPage)
         .limit(perPage)
+        .sort(sortObject)
         .exec(function(err, allemailTemplate) {
             EmailTemplate.count().exec(function(err, count) {
                 if (err) return next(err)
@@ -137,27 +147,36 @@ function addEmailTemplate(req, res) {
 */
 function updateEmailTemplate(req, res) {
 
-    EmailTemplate.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
-        if(err){
+    EmailTemplate.findOne({ emailTitle: req.body.emailTitle,"_id": {$ne: req.params._id}} , (err, result) => {
+        if (result) {
             return res.send({
                 code: constant.ERROR,
-                message: constant.INTERNAL_SERVER_ERROR
-            });
-        }else {
-            if (!result) 
-            {
-                res.json({
-                    code: constant.ERROR,
-                    message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_NOT_FOUND
-                });
-            }else {
-                return res.json({
-                    code: constant.SUCCESS,
-                    message: message.EMAIL_TEMPLATE.UPDATE_SUCCESS,
-                    result: result
-                });
-        
-            }
+                message: message.EMAIL_TEMPLATE.EMAIL_TITLE_ALREADY_EXIST
+            })
+        } else {
+            EmailTemplate.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
+                if(err){
+                    return res.send({
+                        code: constant.ERROR,
+                        message: constant.INTERNAL_SERVER_ERROR
+                    });
+                }else {
+                    if (!result) 
+                    {
+                        res.json({
+                            code: constant.ERROR,
+                            message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_NOT_FOUND
+                        });
+                    }else {
+                        return res.json({
+                            code: constant.SUCCESS,
+                            message: message.EMAIL_TEMPLATE.UPDATE_SUCCESS,
+                            result: result
+                        });
+                
+                    }
+                }
+            })
         }
     })
 }

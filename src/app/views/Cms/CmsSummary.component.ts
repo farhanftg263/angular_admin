@@ -30,6 +30,7 @@ export class CmsSummaryComponent implements OnInit  {
   bigTotalItems: number = 675;
   bigCurrentPage: number = 1;
   numPages: number = 0;
+
   currentPager: number   = 4;
  
     constructor(
@@ -42,7 +43,7 @@ export class CmsSummaryComponent implements OnInit  {
 
     ngOnInit() {
       //get cms list
-      
+      this.setPage(1);
       this.cmsService.getAll(this.currentPage).subscribe(
         data => {
             this.cmsSummary = data;
@@ -87,124 +88,74 @@ export class CmsSummaryComponent implements OnInit  {
   */
 
     delete(id:string){
-      if(confirm("Are you sure you want to delete the CMS")) {
-      console.log('This is deleted id: '+id);
-      //this.cmsid=this.route.snapshot.paramMap.get('id');
-      this.cmsid=id;
-        if(!(this.cmsid)){
-            this.alertService.error('No record exists with given parameters provided',true);
-            this.loading = false;
-            console.log('This is deleted id2: '+this.cmsid);
-            this.router.navigate(['cms/summary']);
-        }
-     // console.log('iiiiiiddddd '+this.cmsid);
-      this.cmsService.getById(this.cmsid).subscribe(
-        data => {
-            this.cmsDelete = data;
-            console.log('==== '+this.cmsDelete.result._id);
-            if(!(this.cmsDelete.result._id)){
+        if(confirm("Are you sure you want to delete the CMS")) {
+        console.log('This is deleted id: '+id);
+        //this.cmsid=this.route.snapshot.paramMap.get('id');
+        this.cmsid=id;
+            if(!(this.cmsid)){
                 this.alertService.error('No record exists with given parameters provided',true);
                 this.loading = false;
-                console.log('This is deleted id3: '+this.cmsDelete.result._id);
+                console.log('This is deleted id2: '+this.cmsid);
                 this.router.navigate(['cms/summary']);
-            }else{ 
-                this.cmsService.delete(this.cmsDelete.result._id).subscribe(
-                    data => {
-                        this.cmsAddResponse = data;
-                        if(this.cmsAddResponse.code == 200)
-                        { 
-                            this.alertService.success(this.cmsAddResponse.message,true);
-                            this.loading = false;
-                            document.getElementById("delete_"+this.cmsDelete.result._id).style.display = 'none';                      
-                            this.router.navigate(['cms/summary']);
-                        }
-                        else{ 
-                            this.alertService.error(this.cmsAddResponse.message);
-                            this.loading = false;
-                        }
-                    },
-                    error => { 
-                       // console.log(error);
-                        this.alertService.error(error);
+            }
+            // console.log('iiiiiiddddd '+this.cmsid); 
+            this.cmsService.delete(this.cmsid).subscribe(
+                data => {
+                    this.cmsAddResponse = data;
+                    if(this.cmsAddResponse.code == 200)
+                    { 
+                        this.alertService.success(this.cmsAddResponse.message,true);
+                        this.loading = false;
+                        document.getElementById("delete_"+this.cmsid).style.display = 'none';                      
+                        this.router.navigate(['cms/summary']);
+                    }
+                    else{ 
+                        this.alertService.error(this.cmsAddResponse.message);
                         this.loading = false;
                     }
-                )  
-            }
-        },
-        error => {
-            this.alertService.error(error);
+                },
+                error => { 
+                // console.log(error);
+                    this.alertService.error(error);
+                    this.loading = false;
+                }
+            )        
         }
-
-        
-      );
-      }
     }
 
   /*
-    Function Name : status
+    Function Name : changeStatus
     Author  : Pradeep Chaurasia
     Created : 20-09-2018
     Modified By : Pradeep Chaurasia
     Type: Public function for change status of cms pages like active and Inactive
   */
 
-    status(id:string,status:string){
-      console.log('This is id: '+id);
-      console.log('This is status: '+status);        
-      this.cmsid=id;
-        if(!(this.cmsid)){
-            this.alertService.error('No record exists with given parameters provided',true);
-            this.loading = false;
-            this.router.navigate(['cms/summary']);
-        }     
-      this.cmsService.getById(this.cmsid).subscribe(
-        data => {
-            this.cmsUpdate = data;
-            console.log(this.cmsUpdate.result);
-            if(!(this.cmsUpdate.result._id)){
+    changeStatus(cms)
+    {
+        if(confirm("Are you sure you want to change status of the CMS")) {
+            if(!(cms._id)){
                 this.alertService.error('No record exists with given parameters provided',true);
                 this.loading = false;
                 this.router.navigate(['cms/summary']);
-            }else{ 
-                this.cmsService.updateStatus(this.cmsUpdate.result._id,status).subscribe(
-                    data => {
-                        this.cmsAddResponse = data;
-                        if(this.cmsAddResponse.code == 200)
-                        { 
-                            this.alertService.success(this.cmsAddResponse.message,true);
-                            this.loading = false;
-                            if(status=='0'){
-                              //document.getElementById("active_status_"+this.cmsUpdate.result._id).style.display ='none';
-                              //document.getElementById("inactive_status_"+this.cmsUpdate.result._id).style.display ='block';                          
-
-                              document.getElementById("active_status_"+this.cmsUpdate.result._id).classList.remove('fa-check');
-                              document.getElementById("active_status_"+this.cmsUpdate.result._id).classList.add('fa-close');                                            
-                            }else if(status=='1'){
-                              document.getElementById("inactive_status_"+this.cmsUpdate.result._id).classList.remove('fa-close');
-                              document.getElementById("inactive_status_"+this.cmsUpdate.result._id).classList.add('fa-check');                                            
-                            }
-                           
-                            this.router.navigate(['cms/summary']);
-                        }
-                        else{ 
-                            this.alertService.error(this.cmsAddResponse.message);
-                            this.loading = false;
-                        }
-                    },
-                    error => { 
-                       // console.log(error);
-                        this.alertService.error(error);
+            } 
+            cms.status =  parseInt(cms.status) == 1 ? 0 : 1;
+            this.cmsService.updateStatus(cms._id,cms.status).subscribe(data => {
+                console.log(data);
+                this.cmsAddResponse = data;
+                if(this.cmsAddResponse.code == 200)
+                    { 
+                        this.alertService.success(this.cmsAddResponse.message,true);
+                    }else{ 
+                        this.alertService.error(this.cmsAddResponse.message);
                         this.loading = false;
                     }
-                )  
-            }
-        },
-        error => {
-            this.alertService.error(error);
+            },
+                error => {             
+                    this.alertService.error(error);
+                    this.loading = false;
+                }
+            )
         }
-
-        
-      );
-
     }
  }

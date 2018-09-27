@@ -7,13 +7,16 @@ import { appConfig } from '../app.config';
 @Injectable()
 export class EmailTemplateService {
     constructor(private http: HttpClient) { }
-
-    getAll() {
-        return this.http.get<EmailTemplate[]>(appConfig.apiUrl+'/email_template/?page=1');
+       
+    getAll(page : number,sortFields : string, ordering : number) {
+        console.log('price ids page : '+page);
+        console.log('price ids sort : '+sortFields);
+        console.log('price ids ordering : '+ordering);
+        return this.http.get<EmailTemplate[]>(appConfig.apiUrl+'/email_template/'+page+'/'+sortFields+'/'+ordering);        
     }
 
     getById(id: string) {
-        return this.http.get(appConfig.apiUrl+'/email_template/' + id);
+        return this.http.get(appConfig.apiUrl+'/email_template/edit/' + id);
     }
 
     create(emailTemplate: EmailTemplate) {
@@ -24,7 +27,7 @@ export class EmailTemplateService {
         return this.http.put(appConfig.apiUrl+'/email_template/' + emailTemplate.id, emailTemplate);
     }
 
-    delete(id: number) {
+    delete(id: string) {
         return this.http.delete(appConfig.apiUrl+'/email_template/' + id);
     }
 

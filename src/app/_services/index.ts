@@ -6,3 +6,4 @@ export * from './validation.service';
 export * from './cms.service';
 export * from './email-template.service';
 export * from './global-setting.service';
+export * from './manage-price.service';

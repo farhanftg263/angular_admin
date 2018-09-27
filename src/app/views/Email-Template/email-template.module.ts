@@ -7,13 +7,17 @@ import { EmailTemplateEditComponent } from './EmailTemplateEdit.component';
 import { EmailTemplateSummaryComponent } from './EmailTemplateSummary.component';
 import { EmailTemplateRoutingModule } from './email-template-routing.module';
 import { TinymceModule } from 'angular2-tinymce';
+// Pagination Component
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+
 @NgModule({
   imports: [
     FormsModule,
     CommonModule,
     EmailTemplateRoutingModule,
     ReactiveFormsModule,
-    TinymceModule.withConfig({})
+    TinymceModule.withConfig({}),
+    PaginationModule.forRoot(),
   ],
   declarations: [ 
     EmailTemplateAddComponent,

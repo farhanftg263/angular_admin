@@ -19,14 +19,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of userSummary.result">
+                <tr id="delete_{{user._id}}" *ngFor="let user of userSummary.result">
                   <td>{{user.firstName | titlecase}}</td>
                   <td>{{user.lastName | titlecase}}</td>
                   <td>{{user.email}}</td>
                   <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
                   <td>{{user.userType[0].roleName}}</td>
                   <td>
-                      <a href="javascript:void(0)" class="status" value="40" status="0" title="Active" id="status_40"><i class="fa fa-fw" (click)="changeStatus(user)"  [ngClass]="user.userStatus == 1 ? 'fa-check' : 'fa-close'"></i></a>&nbsp;&nbsp;&nbsp;<a href="/migrateoutfitter/securehost/adminlogin/cms-pages/edit/40" title="Edit"><i class="fa fa-fw fa-edit"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript::void(0);" class="confirm" status="1" title="Remove" value="40"><i class="fa fa-trash-o"></i></a>                </td>
+                      <a href="javascript:void(0)" class="status" value="40" status="0" title="Active" ><i class="fa fa-fw" (click)="changeStatus(user)"  [ngClass]="user.userStatus == 1 ? 'fa-check' : 'fa-close'"></i></a>
+                      &nbsp;&nbsp;&nbsp;<a href="javascript::void(0)" routerLink="/admin_user/edit/{{user._id}}" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
+                      &nbsp;&nbsp;&nbsp;<a href="javascript::void(0);" class="confirm" status="1" title="Remove" value="40" (click) = "delete(user._id)"><i class="fa fa-trash-o"></i></a>                </td>
                 </tr>
               </tbody>
             </table>

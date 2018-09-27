@@ -13,6 +13,7 @@ var router = express.Router();
 router.get('/:page', CmsSummary);
 router.post('/', addCms);
 router.get('/:_id', getCurrent);
+router.get('/edit/:_id', getCurrent);
 router.put('/status/:_id', changeStatusCms);
 router.put('/:_id', updateCms);
 router.delete('/:_id', _deleteCms);
@@ -136,30 +137,40 @@ function addCms(req, res) {
     Modified By : Pradeep Chaurasia
     Type: Public function for update cms page
 */
-function updateCms(req, res) {    
-
-    Cms.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
-        if(err){
+function updateCms(req, res) {
+    
+    Cms.findOne({ pageName: req.body.pageName,"_id": {$ne: req.params._id}} , (err, result) => {
+        if (result) {
             return res.send({
                 code: constant.ERROR,
-                message: constant.INTERNAL_SERVER_ERROR
-            });
-        }else {
-            if (!result) 
-            {
-                res.json({
-                    code: constant.ERROR,
-                    message: message.CMS.CMS_NOT_FOUND
-                });
-            }else {
-                return res.json({
-                    code: constant.SUCCESS,
-                    message: message.CMS.UPDATE_SUCCESS,
-                    result: result
-                });
-        
-            }
+                message: message.CMS.PAGE_NAME_ALREADY_EXIST
+            })
+        } else {
+            Cms.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
+                if(err){
+                    return res.send({
+                        code: constant.ERROR,
+                        message: constant.INTERNAL_SERVER_ERROR
+                    });
+                }else {
+                    if (!result) 
+                    {
+                        res.json({
+                            code: constant.ERROR,
+                            message: message.CMS.CMS_NOT_FOUND
+                        });
+                    }else {
+                        return res.json({
+                            code: constant.SUCCESS,
+                            message: message.CMS.UPDATE_SUCCESS,
+                            result: result
+                        });
+                
+                    }
+                }
+            })
         }
+   
     })
 }
 /*

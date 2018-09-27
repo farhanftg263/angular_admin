@@ -1,0 +1,50 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Price Summary            
+            <button type="button" class="btn btn-sm btn-primary pull-right" routerLink ="/manage_price/add"><i class="fa fa-dot-circle-o"></i> Add Price</button>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('price',sortDirection)">Price($)</a> </th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('peerPoints',sortDirection)">Peer Points</a></th>                                  
+                  <th><a href="javascript:void(0)" (click)="sortByFields('createdDt',sortDirection)">Created Date</a></th>                  
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let price of managePriceSummary.result" id="delete_{{price._id}}">
+                  <td>{{price.price}}</td>
+                  <td>{{price.peerPoints}}</td>                  
+                  <td>{{price.createdDt | date: 'dd/MM/yyyy'}}</td>
+                  <td>
+                    <a href="javascript:void(0)" class="status" value="40" status="0" title="{{price.status == 1 ? 'Active' : 'Inactive'}}" id="status_40"><i class="fa fa-fw" (click)="changeStatus(price)"  [ngClass]="price.status == 1 ? 'fa-check' : 'fa-close'"></i></a>&nbsp;&nbsp;
+                    <a routerLink ="/manage_price/edit/{{price._id}}" title="Edit"><i class="fa fa-fw fa-edit"></i></a>&nbsp;&nbsp;                 
+                  <a href="javascript:void(0)" (click)="delete(price._id)" class="confirm" status="1" title="Remove" value="40"><i class="fa fa-trash-o"></i></a>
+                  </td>
+                </tr>
+                <tr *ngIf="managePriceSummary.result?.length <= 0">
+                  <td colspan="4" align="center">There is no record exist.</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="card-body">
+              <div class="row">
+                <input type="hidden" id="hidden_sort_field" [(ngModel)]="SortField">
+                <input type="hidden" id="hidden_sort_direction" [(ngModel)]="SortFieldDir">
+                <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="managePriceSummary.result?.length > 0">
+                  <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <!--/.row-->
+  </div>

@@ -14,7 +14,7 @@ export class CmsService {
 
     getById(id: string) {
         console.log('services id: '+id);
-        return this.http.get(appConfig.apiUrl+'/cms/' + id);
+        return this.http.get(appConfig.apiUrl+'/cms/edit/' + id);
     }
 
     create(cms: Cms) {

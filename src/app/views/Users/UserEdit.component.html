@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-header">
+      <strong>Edit</strong> User
+    </div>
+    <div class="card-body">
+      <form  novalidate [formGroup]="user" (ngSubmit)="edit(user)">
+        <div class="form-group">
+            <label for="nf-firstName">First Name</label>
+            <input type="text" id="nf-firstName" formControlName="firstName" class="form-control" placeholder="First Name" autocomplete="email">
+            <span class="invalid-feedback" *ngIf="user.get('firstName').hasError('required') && user.invalid">First name is required</span>
+        </div>
+        <div class="form-group">
+            <label for="nf-lasttName">Last Name</label>
+            <input type="text" id="nf-lasttName" name="lastName" formControlName="lastName" class="form-control" placeholder="Last Name" autocomplete="firstName">
+            <span class="invalid-feedback" *ngIf="user.get('lastName').hasError('required') ">Last name is required</span>
+        </div>
+        <div class="form-group">
+          <label for="nf-email">Email</label>
+          <input type="email" id="nf-email" name="email" class="form-control" readonly formControlName="email" placeholder="Enter Email.." autocomplete="email">
+          <span class="invalid-feedback" *ngIf="user.get('email').invalid">
+            <span *ngIf="user.get('email').hasError('required')">Email is required</span>
+            <span *ngIf="user.get('email').hasError('email')">Invalid email id</span>
+        </span>
+        </div>
+        <div class="form-group">
+          <label for="nf-password">Select Role</label>
+          <select class="form-control"  formControlName="userType" placeholder="Select Role" >
+            <option [value]="role._id" *ngFor="let role of roleList.result">{{role.roleName}}</option>
+          </select>
+          <span class="invalid-feedback" *ngIf="user.get('userType').hasError('required')" >Please enter your password</span>
+        </div>
+        <div class="form-group ">
+          <label class="col-md-3 " for="inline-radios">Status</label>
+          <div class="col-md-9 col-form-label">
+            <div class="form-check form-check-inline mr-2" id="status">
+              <input class="form-check-input" id="status_active" formControlName="userStatus" checked="checked" type="radio" value="1">
+              <label class="form-check-label" for="status_active">Active</label>
+            </div>
+            <div class="form-check form-check-inline mr-3">
+              <input class="form-check-input" id="status_inactive" formControlName="userStatus" type="radio" value="0">
+              <label class="form-check-label" for="status_inactive">Inactive</label>
+            </div>          
+          </div>
+        </div>
+        <div class="card-footer">
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          <button type="submit" [disabled]="user.invalid" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Update</button>
+        </div>
+      </form>
+    </div>
+  </div>

@@ -21,7 +21,7 @@ router.post('/verifypassword',verifyPassword);
 router.post('/resetpassword',resetPassword);
 router.put('/status/:_id',status);
 router.get('/:page', summary);
-router.get('/:_id', getCurrent);
+router.get('/current/:_id', getCurrent);
 router.put('/:_id', update);
 router.delete('/:_id', _delete);
 
@@ -198,6 +198,7 @@ function summary(req, res) {
  Created : 11-03-2018
 */
 function getCurrent(req, res) {
+    console.log("server "+req.params);
     var id = req.params._id;
     if (!id) {
         return res.json({
@@ -253,7 +254,7 @@ function update(req, res) {
             }else {
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.USER.USER_FOUND,
+                    message: message.USER.USER_UPDATE_SUCCESS,
                     result: result
                 });
         
@@ -327,7 +328,8 @@ function forgotpassword(req, res)
             console.log(templateDir)
             var testMailTemplate = new EmailTemplate(templateDir)
             var locals = {
-                userName: "XYZ" //dynamic data for bind into the template
+                userName: "XYZ" //dynamic data for bind into the template,
+                
             };
 
             testMailTemplate.render(locals, function (err, temp) {

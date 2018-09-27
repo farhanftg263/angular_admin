@@ -23,18 +23,20 @@
                   <td>{{cms.metaTitle}}</td>
                   <td>{{cms.metaDescription}}</td>
                   <td>{{cms.createdDt | date: 'dd/MM/yyyy'}}</td>
-                  <td>
-                    <a *ngIf="cms.status>0" href="javascript:void(0)" (click)="status(cms._id,'0')" class="ng-show" value="1" title="Active"><i id="active_status_{{cms._id}}" class="fa fa-fw fa-check"></i></a>
-                    <a *ngIf="cms.status<=0" href="javascript:void(0)" (click)="status(cms._id,'1')" class="ng-hide" value="0" title="Inactive"><i id="inactive_status_{{cms._id}}" class="fa fa-fw fa-close"></i></a>&nbsp;&nbsp;
+                  <td>                    
+                    <a href="javascript:void(0)" class="status" value="40" status="0" title="{{cms.status == 1 ? 'Active' : 'Inactive'}}" id="status_40"><i class="fa fa-fw" (click)="changeStatus(cms)"  [ngClass]="cms.status == 1 ? 'fa-check' : 'fa-close'"></i></a>&nbsp;&nbsp;
                     <a routerLink ="/cms/edit/{{cms._id}}" title="Edit"><i class="fa fa-fw fa-edit"></i></a>&nbsp;&nbsp;                 
                     <a href="javascript:void(0)" (click)="delete(cms._id)" class="confirm" status="1" title="Remove" value="40"><i class="fa fa-trash-o"></i></a>
                   </td>
+                </tr>
+                <tr *ngIf="cmsSummary.result?.length <= 0">
+                  <td colspan="5" align="center">There is no record exist.</td>
                 </tr>
               </tbody>
             </table>
             <div class="card-body">
               <div class="row">
-                <div class="col-xs-12 col-12 d-sm-down-none">
+                <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="cmsSummary.result?.length > 0">
                   <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
                 </div>
               </div>

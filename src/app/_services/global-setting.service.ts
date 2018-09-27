@@ -10,7 +10,7 @@ export class GlobalSettingService {
 
     getAll() {
         console.log('qqqqqqqqq');
-        return this.http.get<GlobalSetting[]>(appConfig.apiUrl+'/global_setting/?page=1');
+        return this.http.get<GlobalSetting[]>(appConfig.apiUrl+'/global_setting?page=1');
     }
 
     getById(id: string) {

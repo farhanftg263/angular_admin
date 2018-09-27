@@ -16,9 +16,10 @@ import { UserSummaryComponent } from './views/Users/UserSummary.component';
 import { UserAddComponent } from './views/Users/UserAdd.component';
 import { CmsSummaryComponent } from './views/Cms/CmsSummary.component';
 import { CmsAddComponent } from './views/Cms/CmsAdd.component';
-import { EmailTemplateSummaryComponent } from './views/Email-Template/EmailTemplateSummary.component';
-import { EmailTemplateAddComponent } from './views/Email-Template/EmailTemplateAdd.component';
-import { GlobalSettingComponent } from './views/Global-Setting/GlobalSetting.component';
+//import { EmailTemplateSummaryComponent } from './views/Email-Template/EmailTemplateSummary.component';
+//import { EmailTemplateAddComponent } from './views/Email-Template/EmailTemplateAdd.component';
+//import { GlobalSettingComponent } from './views/Global-Setting/GlobalSetting.component';
+import { ManagePriceSummaryComponent } from './views/Manage-Price/ManagePriceSummary.component';
 
 export const routes: Routes = [
   {
@@ -84,6 +85,10 @@ export const routes: Routes = [
       {
         path: 'global_setting',
         loadChildren: './views/Global-Setting/global-setting.module#GlobalSettingModule'
+      },
+      {
+        path: 'manage_price',
+        loadChildren: './views/Manage-Price/manage-price.module#ManagePriceModule'
       },
       {
         path: 'buttons',

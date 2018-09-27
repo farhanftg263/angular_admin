@@ -10,9 +10,9 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Email Title</th>
-                  <th>Email Subject</th>                                  
-                  <th>Created Date</th>                  
+                  <th><a href="javascript:void(0)" (click)="sortByFields('emailTitle',sortDirection)">Email Title</a></th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('emailSubject',sortDirection)">Email Subject</a></th>                                  
+                  <th><a href="javascript:void(0)" (click)="sortByFields('createdDt',sortDirection)">Created Date</a></th>                  
                   <th>Action</th>
                 </tr>
               </thead>
@@ -22,24 +22,25 @@
                   <td>{{email.emailSubject}}</td>                  
                   <td>{{email.createdDt | date: 'dd/MM/yyyy'}}</td>
                   <td>
-                    <a *ngIf="email.status>0" href="javascript:void(0)" (click)="status(email._id,'0')" class="ng-show" value="1" title="Active"><i id="active_status_{{email._id}}" class="fa fa-fw fa-check"></i></a>
-                    <a *ngIf="email.status<=0" href="javascript:void(0)" (click)="status(email._id,'1')" class="ng-hide" value="0" title="Inactive"><i id="inactive_status_{{email._id}}" class="fa fa-fw fa-close"></i></a>&nbsp;&nbsp;
-                  <a routerLink ="/email_template/edit/{{email._id}}" title="Edit"><i class="fa fa-fw fa-edit"></i></a>&nbsp;&nbsp;                  
+                    <a href="javascript:void(0)" class="status" value="40" status="0" title="{{email.status == 1 ? 'Active' : 'Inactive'}}" id="status_40"><i class="fa fa-fw" (click)="changeStatus(email)"  [ngClass]="email.status == 1 ? 'fa-check' : 'fa-close'"></i></a>&nbsp;&nbsp;
+                    <a routerLink ="/email_template/edit/{{email._id}}" title="Edit"><i class="fa fa-fw fa-edit"></i></a>&nbsp;&nbsp;                 
                   <a href="javascript:void(0)" (click)="delete(email._id)" class="confirm" status="1" title="Remove" value="40"><i class="fa fa-trash-o"></i></a>
                   </td>
                 </tr>
+                <tr *ngIf="emailTemplateSummary.result?.length <= 0">
+                  <td colspan="4" align="center">There is no record exist.</td>
+                </tr>
               </tbody>
             </table>
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-              <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
+            <div class="card-body">
+              <div class="row">
+                  <input type="hidden" id="hidden_sort_field" [(ngModel)]="SortField">
+                  <input type="hidden" id="hidden_sort_direction" [(ngModel)]="SortFieldDir">
+                <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="emailTemplateSummary.result?.length > 0">
+                  <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

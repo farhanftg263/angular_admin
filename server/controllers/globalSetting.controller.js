@@ -5,9 +5,9 @@ var message = require("../validation_errors");
 var moment = require('moment-timezone');
 var express = require('express');
 var router = express.Router();
-
+console.log('server global setting controller page');
 // routes
-router.get('/', GlobalSetting);
+router.get('/', GlobalSettingSummary);
 router.get('/:_id', getCurrent);
 router.put('/:_id', updateGlobalSetting);
 module.exports = router;
@@ -17,7 +17,7 @@ module.exports = router;
  Author  : Pradeep Chaurasia
  Created : 21-09-2018
 */
-function GlobalSetting(req, res) {
+function GlobalSettingSummary(req, res) {
     console.log('server global setting function');
     var perPage = constant.PER_PAGE_RECORD
     var page = req.params.page || 1;
