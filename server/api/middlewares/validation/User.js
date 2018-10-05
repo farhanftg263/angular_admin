@@ -64,6 +64,12 @@ const validate_request = {
                         return [constant.WARNING,validationMessage.USER.ZIPCODE_REQUIRED];
                     }
                     break;
+                case 'OPT':
+                    if(!request_body['OPT'])
+                    {
+                        return [constant.WARNING,validationMessage.USER.OTP_REQUIRED];
+                    }
+                    break;
                 case '_id':
                     if (!request_body['_id']) {
                         return [constant.WARNING, validationMessage.USER.ID_PARAMETER_REQUIRED];

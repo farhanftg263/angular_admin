@@ -1,6 +1,7 @@
 module.exports = {
     'ERROR' : 400,
     'SUCCESS' : 200,
+    'VERIFIED' : 600,
     'REQUIRED_DATA' : 'Request data is required',
     'INTERNAL_SERVER_ERROR' : 'Internal server error',
     'PER_PAGE_RECORD': 10,    

@@ -16,20 +16,31 @@ module.exports = {
         'FORGOT_PASSWORD_SUCCESS' : 'Peershot have sent an email to your registered Email ID, please  reset your password for login',
         'FORGOT_PASSWORD_TOKEN_NOT_VERIFY' : 'Account is not verified associated with token',
         'FORGOT_PASSWORD_TOKEN_VERIFIED' : 'Account is verified',
+        'RESET_PASSWORD_SUCCESS' : 'Congratulations! Your account has been activated. Please click on below login link and login with your email id and password.',
         'USER_STATUS_ACTIVE' : 'Úser status is active',
-        'USER_STATUS_INACTIVE' : 'User status in inactive',
+        'USER_STATUS_INACTIVE' : 'Status has been changed successfully',
         'USER_NOT_FOUND' : 'User not found',
         'USER_UPDATE_SUCCESS' : 'User has been updated successfully'
     },
-    'ROLE' : {
-        'ROLE_SUMMARY_FOUND' : 'Role summary found'
+    'ROLES' : {
+        'ROLE_SUMMARY_FOUND' : 'Role summary found',
+        'INSERT_SUCCESS' : 'Role has been added successfully',
+        'UPDATE_SUCCESS' : 'Role has been updated successfully',        
+        'ROLE_NAME_REQUIRED' : 'Role name is required',
+        'ROLE_DESCRIPTION_REQUIRED' : 'Role description is required',        
+        'ROLE_NAME_ALREADY_EXIST' : 'Role name is already exist',        
+        'ID_PARAMETER_REQUIRED' : '_id parameter is required',       
+        'ROLE_NOT_FOUND' : 'Role not found',
+        'ROLE_FOUND' : 'Role found',
+        'ROLE_DELETED_SUCCESS' : 'Role has been deleted successfully.',
+        'UPDATE_STATUS' :'Status has been changed successfully',
     },
       'CMS' : {
         'INSERT_SUCCESS' : 'CMS has been added successfully',
         'UPDATE_SUCCESS' : 'CMS has been updated successfully',        
-        'PAGE_NAME_REQUIRED' : 'CMS Page name is required',
-        'PAGE_CONTENT_REQUIRED' : 'CMS Page content is required',        
-        'PAGE_NAME_ALREADY_EXIST' : 'CMS Page name is already exist',        
+        'PAGE_NAME_REQUIRED' : 'CMS page name is required',
+        'PAGE_CONTENT_REQUIRED' : 'CMS page content is required',        
+        'PAGE_NAME_ALREADY_EXIST' : 'CMS page name is already exist',        
         'ID_PARAMETER_REQUIRED' : '_id parameter is required',
         'CMS_SUMMARY_FOUND' : 'CMS summary found',
         'CMS_NOT_FOUND' : 'Cms not found',
@@ -69,6 +80,19 @@ module.exports = {
       'PRICE_FOUND' : 'Price found',
       'PRICE_DELETED_SUCCESS' : 'Price has been deleted successfully.',
       'UPDATE_STATUS' :'Status has been changed successfully',        
-  },
+    },
+
+    'PRODUCT' : {
+        'INSERT_SUCCESS' : 'Product has been added successfully',
+        'UPDATE_SUCCESS' : 'Product has been updated successfully',        
+        'PRODUCT_NAME_REQUIRED' : 'Product name is required',               
+        'PRODUCT_NAME_ALREADY_EXIST' : 'Product name is already exist',        
+        'ID_PARAMETER_REQUIRED' : '_id parameter is required',
+        'PRODUCT_SUMMARY_FOUND' : 'Product summary found',
+        'PRODUCT_NOT_FOUND' : 'Product not found',
+        'PRODUCT_FOUND' : 'Product found',
+        'PRODUCT_DELETED_SUCCESS' : 'Product has been deleted successfully.',
+        'UPDATE_STATUS' :'Status has been changed successfully',        
+    },
 };
 

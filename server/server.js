@@ -8,12 +8,14 @@ var config = require('config.json');
 var mongoose = require('mongoose');
 var path = require("path");
 const apiRoutes = require('./apiRoutes');
+var Q = require('q');
 
 //Set up default mongoose connection
 var mongoDB = config.connectionString;
+mongoose.set('useCreateIndex', true);
 mongoose.connect(mongoDB,{ useNewUrlParser: true });
 // Get Mongoose to use the global promise library
-mongoose.Promise = global.Promise;
+mongoose.Promise = require('q').Promise;
 //Get the default connection
 var db = mongoose.connection;
 
@@ -52,6 +54,7 @@ app.use('/cms', require('./controllers/cms.controller'));
 app.use('/email_template', require('./controllers/emailTemplate.controller'));
 app.use('/global_setting', require('./controllers/globalSetting.controller'));
 app.use('/manage_price', require('./controllers/managePrice.controller'));
+app.use('/product', require('./controllers/product.controller'));
 
 // error handler
 app.use(function (err, req, res, next) {

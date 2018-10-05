@@ -18,6 +18,13 @@ var RoleSchema = new Schema({
     sparse:true,
     default:1
     },
+    createdDt:{
+        type:Date,
+        trim:true,
+        sparse:true,
+        default: Date.now
+        
+    },
 },
 {
 timestamps:true
@@ -30,4 +37,4 @@ RoleSchema.methods.toJSON = function() {
     return obj;
 }
 
-module.exports = mongoose.model('Role', RoleSchema);
+module.exports = mongoose.model('Roles', RoleSchema);

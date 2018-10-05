@@ -11,6 +11,8 @@ module.exports = {
     'SMTP_USERNAME': 'farhan.hashmi.newmediaguru@gmail.com',
     'SMTP_PASSWORD': 'farhan@1234',
     'SMTP_FROM_EMAIL': 'farhan.hashmi.newmediaguru@gmail.com',
-    'cmsimage_path':'/var/www/html'   
+    'cmsimage_path':'/var/www/html',
+    'PHOTO_UPLOAD_PRIVATE' : 1,
+    'PHOTO_UPLOAD_PUBLIC' : 2   
 };
 

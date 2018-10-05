@@ -4,6 +4,7 @@ const expressJwt = require('express-jwt');
 var config = require('./config.json');
 var cors = require('cors');
 var bodyParser = require('body-parser');
+var formidable = require('express-formidable');
 
 // use JWT auth to secure the api, the token can be passed in the authorization header or querystring
 app.use(expressJwt({
@@ -16,10 +17,16 @@ app.use(expressJwt({
         }
         return null;
     }
-}).unless({ path: ['/api/users/authenticate', '/api/users/forgetpassword'] }));
+}).unless({ path: [
+    '/api/users/authenticate', '/api/users/forgetpassword','/api/users',
+    '/api/users/verifyOTP','/api/users/expireOTP','/api/users/resetPassword',
+    '/api/users/verifyAccount'
+] }));
 
 // routes
 app.use('/users', require('./api/controllers/users.controller'));
+app.use(formidable());
+app.use('/photo', require('./api/controllers/photo.controller'));
 
 // error handler
 app.use(function (err, req, res, next) {

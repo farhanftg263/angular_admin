@@ -3,20 +3,18 @@ var validator = require('../middlewares/validation');
 var constant = require("../constant");
 var message = require("../validation_errors");
 var moment = require('moment-timezone');
-//var jwt = require('jsonwebtoken');
-//var bcrypt = require('bcryptjs');
-//var config = require('config.json');
 var express = require('express');
 var router = express.Router();
 
 // routes
-router.get('/:page', CmsSummary);
+router.get('/:page/:sortfields/:ordering', CmsSummary);
 router.post('/', addCms);
 router.get('/:_id', getCurrent);
 router.get('/edit/:_id', getCurrent);
 router.put('/status/:_id', changeStatusCms);
 router.put('/:_id', updateCms);
 router.delete('/:_id', _deleteCms);
+router.get('/search/:page/:sortfields/:ordering/:searchkey', FilteredCmsSummary);
 
 module.exports = router;
 
@@ -26,12 +24,22 @@ module.exports = router;
  Created : 17-09-2018
 */
 function CmsSummary(req, res) {
+    
     var perPage = constant.PER_PAGE_RECORD
     var page = req.params.page || 1;
     console.log("page "+req.params.page);
+    var sortObject = {};
+    var sortfields=req.params.sortfields.trim();   
+    var ordering=req.params.ordering;
+    
+    if(ordering==0){
+        ordering='-1';
+    }
+    sortObject[sortfields] = ordering;
     Cms.find({})
         .skip((perPage * page) - perPage)
         .limit(perPage)
+        .sort(sortObject)
         .exec(function(err, allcms) {
             Cms.count().exec(function(err, count) {
                 if (err) return next(err)
@@ -237,3 +245,43 @@ function changeStatusCms(req,res){
     }) 
 
 }
+
+
+/*
+ Function Name : Filtered cms Summary/List
+ Author  : Pradeep Chaurasia
+ Created : 03-10-2018
+*/
+function FilteredCmsSummary(req, res) {
+    var perPage = constant.PER_PAGE_RECORD
+    var page = req.params.page || 1;
+    console.log("page "+req.params.page);
+    var sortObject = {};
+    var sortfields=req.params.sortfields.trim();   
+    var ordering=req.params.ordering;
+    var searchkey=req.params.searchkey;
+    console.log('search key: '+searchkey);
+    if(ordering==0){
+        ordering='-1';
+    }
+    sortObject[sortfields] = ordering;
+    Cms.find({"pageName": { $regex: '.*' + searchkey + '.*','$options' : 'i' }})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .sort(sortObject)
+        .exec(function(err, allcms) {
+            Cms.count({"pageName": { $regex: '.*' + searchkey + '.*','$options' : 'i' }}).exec(function(err, count) {
+                if (err) return next(err)
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: message.CMS.CMS_SUMMARY_FOUND,
+                    result: allcms,
+                    total : count,
+                    current: page,
+                    perPage: perPage,
+                    pages: Math.ceil(count / perPage)
+                });
+            })
+        });
+}
+

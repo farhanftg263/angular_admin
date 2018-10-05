@@ -19,6 +19,11 @@ var UserSchema = new Schema(
         type:String,
         trim:true
     },
+    username:{
+        type:String,
+        trim:true,
+        default: "",
+    },
     email:{
     type:String,
     sparse: true,
@@ -36,40 +41,54 @@ var UserSchema = new Schema(
     sparse:true
     },
     profilePic:{
-    type:String,
-    trim:true
+        type:String,
+        default: "",
+        trim:true
+    },
+    latitude:{
+        type:String,
+        trim:true,
+        default:"0"
+    },
+    longitude:{
+        type:String,
+        trim:true,
+        default:"0"
     },
     address:{
-    type:String,
-    trim:true
+        type:String,
+        trim:true
     },
     city:{
-    type:String,
-    trim:true
+        type:String,
+        trim:true
     },
     state:{
-    type:String,
-    trim:true
+        type:String,
+        trim:true
     },
     country:{
-    type:String,
-    trim:true
+        type:String,
+        default: "",
+        trim:true,
     },
     zipCode:{
-    type:String,
-    trim:true
+        type:String,
+        default: "",
+        trim:true
     },
     subscriptionPlan:{
-    type:String,
-    trim:true
+        type:String,
+        trim:true
     },
     accessToken:{
     type:String,
+    default: "0",
     trim:true
     },
 
     //User type has 2 option 1=>admin,0=>users
-    userType:[{ type: Schema.Types.ObjectId, ref: 'Role' }],
+    userType:{ type: Schema.Types.ObjectId, ref: 'Roles' },
     userStatus:{
     type:Number,
     trim:true,
@@ -86,6 +105,10 @@ var UserSchema = new Schema(
 {
 timestamps:true
 });
+
+UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
+
 
 UserSchema.pre('save', function (next) {
     var user = this;
@@ -116,10 +139,18 @@ UserSchema.methods.comparePassword = function (passw, cb) {
     });
 };
 
+
 UserSchema.methods.toJSON = function() {
     var obj = this.toObject();
     delete obj.password;
     return obj;
    }
+
+UserSchema.virtual('userphotos', {
+    ref: 'UserPhoto',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: false // set true for one-to-one relationship
+})
 
 module.exports = mongoose.model('User', UserSchema);

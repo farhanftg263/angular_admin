@@ -3,9 +3,6 @@ var validator = require('../middlewares/validation');
 var constant = require("../constant");
 var message = require("../validation_errors");
 var moment = require('moment-timezone');
-//var jwt = require('jsonwebtoken');
-//var bcrypt = require('bcryptjs');
-//var config = require('config.json');
 var express = require('express');
 var router = express.Router();
 
@@ -17,6 +14,7 @@ router.get('/edit/:_id', getCurrent);
 router.put('/:_id', updateEmailTemplate);
 router.put('/status/:_id', changeStatusEmailTemplate);
 router.delete('/:_id', _deleteEmailTemplate);
+router.get('/search/:page/:sortfields/:ordering/:searchkey', FileredemailTemplateSummary);
 
 module.exports = router;
 
@@ -243,5 +241,45 @@ function changeStatusEmailTemplate(req,res){
         }
     }) 
 
+}
+
+
+
+/*
+ Function Name : Filtered email template Summary/List
+ Author  : Pradeep Chaurasia
+ Created : 28-09-2018
+*/
+function FileredemailTemplateSummary(req, res) {
+    var perPage = constant.PER_PAGE_RECORD
+    var page = req.params.page || 1;
+    console.log("page "+req.params.page);
+    var sortObject = {};
+    var sortfields=req.params.sortfields.trim();   
+    var ordering=req.params.ordering;
+    var searchkey=req.params.searchkey;
+    console.log('search key: '+searchkey);
+    if(ordering==0){
+        ordering='-1';
+    }
+    sortObject[sortfields] = ordering;
+    EmailTemplate.find({"emailTitle": { $regex: '.*' + searchkey + '.*','$options' : 'i' }})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .sort(sortObject)
+        .exec(function(err, allemailTemplate) {
+            EmailTemplate.count({"emailTitle": { $regex: '.*' + searchkey + '.*','$options' : 'i' }}).exec(function(err, count) {
+                if (err) return next(err)
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: message.EMAIL_TEMPLATE.EMAIL_TEMPLATE_SUMMARY_FOUND,
+                    result: allemailTemplate,
+                    total : count,
+                    current: page,
+                    perPage: perPage,
+                    pages: Math.ceil(count / perPage)
+                });
+            })
+        });
 }
 

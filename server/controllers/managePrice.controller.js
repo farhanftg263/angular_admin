@@ -17,6 +17,7 @@ router.get('/edit/:_id', getCurrent);
 router.put('/:_id', updateManagePrice);
 router.put('/status/:_id', changeStatusManagePrice);
 router.delete('/:_id', _deleteManagePrice);
+router.get('/search/:page/:sortfields/:ordering/:searchkey', FilteredPriceSummary);
 
 module.exports = router;
 
@@ -243,5 +244,43 @@ function changeStatusManagePrice(req,res){
         }
     }) 
 
+}
+
+/*
+ Function Name : Filtered price Summary/List
+ Author  : Pradeep Chaurasia
+ Created : 03-10-2018
+*/
+function FilteredPriceSummary(req, res) {
+    var perPage = constant.PER_PAGE_RECORD
+    var page = req.params.page || 1;
+    console.log("page "+req.params.page);
+    var sortObject = {};
+    var sortfields=req.params.sortfields.trim();   
+    var ordering=req.params.ordering;
+    var searchkey=req.params.searchkey;
+    console.log('search key: '+searchkey);
+    if(ordering==0){
+        ordering='-1';
+    }
+    sortObject[sortfields] = ordering;
+    ManagePrice.find({"price": searchkey})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .sort(sortObject)
+        .exec(function(err, allprice) {
+            ManagePrice.count({"price": searchkey}).exec(function(err, count) {
+                if (err) return next(err)
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: message.MANAGE_PRICE.PRICE_FOUND,
+                    result: allprice,
+                    total : count,
+                    current: page,
+                    perPage: perPage,
+                    pages: Math.ceil(count / perPage)
+                });
+            })
+        });
 }
 

@@ -33,7 +33,26 @@ module.exports = {
         'USER_UPDATE_SUCCESS' : 'User has been updated successfully',
         'COUNTRY_REQUIRED' : 'Country is required',
         'ZIPCODE_REQUIRED' : 'Zip Code is required',
-        'EMAIL_TEMPLATE_NOT_FOUND': 'Email template not found'
+        'OTP_REQUIRED' : 'OTP is required',
+        'OTP_NOT_VERIFIED' : 'OTP is not verified',
+        'OTP_VERIFIED_SUCCESS' : 'OTP has been verified',
+        'OTP_EXPIRED_SUCCESS' : 'OTP has been expired',
+        'EMAIL_TEMPLATE_NOT_FOUND': 'Email template not found',
+        'RESET_PASSWORD_SUCCESS' : 'Your password has been reset successfully.',
+        'USER_INACTIVE_ACCOUNT' : 'Your account is inactive, Contact Peershots Admin to activate your account.',
+        'ACCOUNT_ACTIVATION_SUCCESS': 'Your account has been successfully activated, Please login with your registered credential'
     },
+    'USER_PHOTO' :{
+        'USER_PHOTO_USER_REQUIRED' : 'User is required',
+        'USER_PHOTO_LOCATION_TYPE_REQUIRED' : 'Location type is required',
+        'USER_PHOTO_LATITUDE_REQUIRED' : 'Latitude is required',
+        'USER_PHOTO_LONGITUDE_REQUIRED' : 'Longitude is required',
+        'USER_PHOTO_CITY_REQUIRED' : 'City is required',
+        'USER_PHOTO_STATE_REQUIRED' : 'State is required',
+        'USER_PHOTO_COUNTRY_REQUIRED' : 'Country is required',
+        'USER_PHOTO_ZIPCODE_REQUIRED' : 'Zip Code is required',
+        'USER_PHOTO_REQUIRED' : 'User photo is required',
+        'USER_PHOTO_SAVED_SUCCESSFULLY' : 'User photo has been saved successfully'
+    }
 };
 
