@@ -1,0 +1,76 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-header">
+              <form novalidate [formGroup]="photo" (ngSubmit)="searchedData(photo)">                
+                <input size="42px" type="text" id="nf-searchKey" formControlName="searchKey" maxlength="60" placeholder="Search by username/location..">
+                &nbsp;&nbsp;                
+                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Search</button>      
+              </form> 
+        </div>
+      </div>
+    </div>    
+  </div>
+  
+  <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Manage Photo Summary
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>SN</th>
+                    <th><a href="javascript:void(0)" (click)="sortByFields('username',sortDirection)">Username</a></th>
+                    <th>Image</th>
+                    <th><a href="javascript:void(0)" (click)="sortByFields('city',sortDirection)">Image Location</a></th>
+                    <th><a href="javascript:void(0)" (click)="sortByFields('createdAt',sortDirection)">Date & Time</a></th>
+                    <th><a href="javascript:void(0)" (click)="sortByFields('shareCount',sortDirection)">No of Shares</a></th>
+                    <th><a href="javascript:void(0)" (click)="sortByFields('viewCount',sortDirection)">No of Unique Views</a></th>
+                    <th><a href="javascript:void(0)" (click)="sortByFields('downloadCount',sortDirection)">No of purchases</a></th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                        <td colspan="9" align="center"><img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />                        </td>
+                  </tr>
+                  <tr id="delete_{{photo._id}}" *ngFor="let photo of photoSummary.result; let i = index">
+                    <td>{{i+1}}</td>
+                    <td><a *ngIf="photo.user.username ? true: false"  href="javascript::void(0)" routerLink="/photo/user-detail/{{i}}">{{photo.user.username}}</a></td>
+                    <td><img class="img-pointer" (click)="open(i)"  *ngIf="photo.photo ? true:false" width="150px" height="100px" src="{{site_url+'/thumb/'+photo.photo}}"/></td>
+                    <td>{{photo.city +','+photo.state +','+photo.country}}</td>
+                    <td>{{photo.createdAt | date:'MMM d, y, h:mm:ss a'}}</td>
+                    <td>{{photo.shareCount}}</td>
+                    <td>{{photo.viewCount}}</td>
+                    <td>{{photo.downloadCount}}</td>
+                    <td>
+                        <a  href="javascript:void(0)" class="status" value="40" status="0" title="Active" ><i class="fa fa-fw" (click)="changeStatus(photo)"  [ngClass]="photo.status == 1 ? 'fa-check' : 'fa-close'"></i></a>
+                  
+                        &nbsp;&nbsp;&nbsp;<a href="javascript::void(0);" class="confirm" status="1" title="Remove" value="40" (click) = "delete(photo._id)"><i class="fa fa-trash-o"></i></a>                </td>
+                  </tr>
+                  <tr *ngIf="is_get_data">
+                    <td colspan="9" align="center">There is no record exist.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="card-body">
+                  <div class="row">
+                      <input type="hidden" id="hidden_sort_field" [(ngModel)]="SortField">
+                      <input type="hidden" id="hidden_sort_direction" [(ngModel)]="SortFieldDir">
+                    <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="photoSummary.result?.length > 0 && totalItems>perPage">
+                      <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <!--/.row-->
+    </div>
+    

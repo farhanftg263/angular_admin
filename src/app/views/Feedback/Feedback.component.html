@@ -1,0 +1,65 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-header">
+              <form novalidate [formGroup]="feedback" (ngSubmit)="searchedData(feedback)">                
+                <input size="42px" type="text" id="nf-searchKey" formControlName="searchKey" maxlength="60" placeholder="Search by username/comment">
+                &nbsp;&nbsp;                
+                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Search</button>      
+              </form> 
+        </div>
+      </div>
+    </div>    
+  </div>
+  
+  <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Contact Admin
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                   
+                    <tr>
+                        <th><a href="javascript:void(0)" (click)="sortByFields('username',sortDirection)">Username</a></th>
+                        <th>Comment</th>
+                        <th><a href="javascript:void(0)" (click)="sortByFields('createdAt',sortDirection)">Created Date</a></th>
+                        <th>Action</th>
+                    </tr>
+                    <tr *ngIf="loading">
+                            <td colspan="4" align="center"><img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />                        </td>
+                        </tr>
+                </thead>
+                <tbody>
+                  <tr id="delete_{{feedback._id}}" *ngFor="let feedback of feedbackSummary.result">
+                    <td>{{feedback.user.username }}</td>
+                    <td>{{feedback.comment}}</td>
+                    <td>{{feedback.createdAt | date:'MMM d, y, h:mm:ss a'}}</td>
+                    <td>
+                        <a href="javascript::void(0);" class="confirm" status="1" title="Remove" value="40" (click) = "delete(feedback._id)"><i class="fa fa-trash-o"></i></a>                </td>
+                  </tr>
+                  <tr *ngIf="is_get_data">
+                    <td colspan="6" align="center">There is no record exist.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="card-body">
+                  <div class="row">
+                      <input type="hidden" id="hidden_sort_field" [(ngModel)]="SortField">
+                      <input type="hidden" id="hidden_sort_direction" [(ngModel)]="SortFieldDir">
+                    <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="feedbackSummary.result?.length > 0 && totalItems>perPage">
+                      <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <!--/.row-->
+    </div>
+    

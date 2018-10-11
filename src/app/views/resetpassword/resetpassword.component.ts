@@ -19,6 +19,7 @@ export class ResetPasswordComponent implements OnInit  {
   message: string;
   varfyResponse : any = {};
   forgetPasswordResponse : any = {};
+  appuser=true;
     constructor(
       private router : Router,
       private route : ActivatedRoute,
@@ -34,7 +35,7 @@ export class ResetPasswordComponent implements OnInit  {
         this.model = this.fb.group({
             "password": ['',[Validators.required]],
             "confirmPassword": ['',[Validators.required]],
-            "email":['']
+            //"email":['']
         },{
             validator: this.validationService.matchingPasswords('password', 'confirmPassword')
         });
@@ -52,14 +53,28 @@ export class ResetPasswordComponent implements OnInit  {
         } 
 
         let email = this.route.snapshot.queryParams["email"];
-        let token = this.route.snapshot.queryParams["token"];  
-         this.authService.verifyPassword(email, token).subscribe(
+        let token = this.route.snapshot.queryParams["accessToken"];
+        let forget=this.route.snapshot.queryParams["f"];
+        let utype= this.route.snapshot.queryParams["u"];
+        if(utype==1){
+            this.appuser=false;
+        }      
+        this.authService.verifyPassword(email, token,forget,utype).subscribe(
             data => {
                 if(data.code == 400)
                 {
                     this.alertService.error(data.message,true);
                     this.router.navigate(['forgetpassword']);
+                }else if(data.code == 600)
+                {
+                    //this.alertService.error(data.message,true);
+                    this.router.navigate(['login']);
+                }else if(data.code == 800)
+                {
+                    this.alertService.error(data.message,true);
+                    //this.router.navigate(['login']);
                 }
+
             },
             error => {
                 this.alertService.error(error);
@@ -71,7 +86,8 @@ export class ResetPasswordComponent implements OnInit  {
     resetPassword()
     {
         let email = this.route.snapshot.queryParams["email"];
-        this.authService.resetPassword(this.model.value.password,email).subscribe(
+        let token=this.route.snapshot.queryParams["accessToken"];
+        this.authService.resetPassword(this.model.value.password,email,token).subscribe(
           data => {
               this.forgetPasswordResponse = data;
               if(this.forgetPasswordResponse.code == 200)

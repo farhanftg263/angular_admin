@@ -168,7 +168,7 @@ function register(req, res) {
             let salt = req.body.firstName + unix_time
             let accessToken = md5(salt);
             req.body.accessToken = accessToken;
-            req.body.userType = 0;
+            //req.body.userType = 0;
             User.create(req.body, (err, result) => {
                 if (err) {
                     return res.send({

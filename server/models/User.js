@@ -40,6 +40,11 @@ var UserSchema = new Schema(
     trim:true,
     sparse:true
     },
+    dob:{
+        type:Date,
+        default: '',
+        trim:true
+    },
     profilePic:{
         type:String,
         default: "",
@@ -61,11 +66,13 @@ var UserSchema = new Schema(
     },
     city:{
         type:String,
-        trim:true
+        trim:true,
+        default:""
     },
     state:{
         type:String,
-        trim:true
+        trim:true,
+        default:""
     },
     country:{
         type:String,
@@ -86,9 +93,55 @@ var UserSchema = new Schema(
     default: "0",
     trim:true
     },
+    gender:{
+        type:String,
+        default: "M",
+        trim:true
+    },
+    totalPointsEarned:{
+        type:String,
+        default: "0",
+        trim:true
+    },
+    totalPointsRedeemed:{
+        type:String,
+        default: "0",
+        trim:true
+    },
+    totalCurrentPoints:{
+        type:String,
+        default: "0",
+        trim:true
+    },
+    lastLoginTime:{
+        type:Date,
+        default: Date.now,
+        trim:true
+    },
+    totalPhotosSnaped:{
+        type:String,
+        default: "0",
+        trim:true
+    },
+    totalPhotosPurchased:{
+        type:String,
+        default: "0",
+        trim:true
+    },
+    totalRewardsRedeemed:{
+        type:String,
+        default: "0",
+        trim:true
+    },
+    shippingAddress:{
+        type:String,
+        default: "",
+        trim:true
+    },
+    
 
     //User type has 2 option 1=>admin,0=>users
-    userType:{ type: Schema.Types.ObjectId, ref: 'Roles' },
+    userType:[{ type: Schema.Types.ObjectId, ref: 'Roles' }],
     userStatus:{
     type:Number,
     trim:true,

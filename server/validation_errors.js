@@ -16,11 +16,16 @@ module.exports = {
         'FORGOT_PASSWORD_SUCCESS' : 'Peershot have sent an email to your registered Email ID, please  reset your password for login',
         'FORGOT_PASSWORD_TOKEN_NOT_VERIFY' : 'Account is not verified associated with token',
         'FORGOT_PASSWORD_TOKEN_VERIFIED' : 'Account is verified',
-        'RESET_PASSWORD_SUCCESS' : 'Congratulations! Your account has been activated. Please click on below login link and login with your email id and password.',
+        'RESET_PASSWORD_SUCCESS' : 'Your password has been reset successfully.',
         'USER_STATUS_ACTIVE' : 'Úser status is active',
         'USER_STATUS_INACTIVE' : 'Status has been changed successfully',
         'USER_NOT_FOUND' : 'User not found',
-        'USER_UPDATE_SUCCESS' : 'User has been updated successfully'
+        'USER_UPDATE_SUCCESS' : 'User has been updated successfully',
+        'CHANGE_PASSWORD_SUCCESS':'Password has been changed successfully',
+        'APP_INSERT_SUCCESS':'User has been registered successfully',
+        'USERNAME_ALREADY_EXIST':'Username is already exist',
+        'ALREADY_ACCOUNT_ACTIVE':'Your account has been already activated',
+        "APP_RESEND_EMAIL":'Resend Activation Email has been sent successfully'
     },
     'ROLES' : {
         'ROLE_SUMMARY_FOUND' : 'Role summary found',
@@ -34,6 +39,7 @@ module.exports = {
         'ROLE_FOUND' : 'Role found',
         'ROLE_DELETED_SUCCESS' : 'Role has been deleted successfully.',
         'UPDATE_STATUS' :'Status has been changed successfully',
+        'UPDATE_PERMISSION_STATUS':'Permission has been updated successfully',
     },
       'CMS' : {
         'INSERT_SUCCESS' : 'CMS has been added successfully',
@@ -67,7 +73,7 @@ module.exports = {
     'GLOBAL_SETTING_FOUND' : 'Global setting found',
     'GLOBAL_SETTING_NOT_FOUND' : 'Global setting not found',
               
-},
+    },
     'MANAGE_PRICE' : {
       'INSERT_SUCCESS' : 'Price has been added successfully',
       'UPDATE_SUCCESS' : 'Price has been updated successfully',        
@@ -94,5 +100,35 @@ module.exports = {
         'PRODUCT_DELETED_SUCCESS' : 'Product has been deleted successfully.',
         'UPDATE_STATUS' :'Status has been changed successfully',        
     },
+    'PHOTO' : {
+        'PHOTO_LIST_FOUND_SUCCESSFULLY' : 'Photo list found successfully',
+        'PHOTO_LIST_NOT_FOUND' : 'Photo list not found',
+        'PHOTO_NOT_FOUND' : 'Photo is not found',
+        'PHOTO_STATUS_ACTIVE' : 'Photo status is active',
+        'PHOTO_STATUS_INACTIVE' : 'Photo statis is inactive',
+        'PHOTO_DELETED_SUCCESS' : 'Photo has been deleted'
+    },
+    'REDEMPTION_REQUEST' : {
+        'REDEMPTION_REQUEST_REQUIRED' : 'Redemption request is required',
+        'ID_PARAMETER_REQUIRED' : '_id parameter is required',
+        'REDEMPTION_REQUEST_SUMMARY_FOUND' : 'Redemption request summary found',
+        'REDEMPTION_REQUEST_NOT_FOUND' : 'Redemption request not found',
+        'REDEMPTION_REQUEST_FOUND' : 'Redemption request found',        
+        'UPDATE_STATUS' :'Status has been changed successfully',        
+    },
+    "CONTACT_ADMIN" : {
+        'CONTACT_ADMIN_LIST_FOUND' : 'Contact admin list found',
+        'CONTACT_ADMIN_LIST_NOT_FOUND' : 'Contact admin list not found',
+        'CONTACT_ADMIN_RECORD_DELETED' : 'Contact admin record has been deleted successfully'
+    },
+    "FEEDBACK" : {
+        'FEEDBACK_LIST_FOUND' : 'Feedback list found',
+        'FEEDBACK_LIST_NOT_FOUND' : 'Feedback list not found',
+        'FEEDBACK_RECORD_DELETE' : 'Feedback record has been deleted successfully'
+    },
+    "LEADERBOARD" : {
+        "LEADERBOARD_LIST_FOUND" : 'Leaderboars list is found',
+        "LEADERBOARD_NOT_FOUND" : 'Leaderboard is not found'
+    }
 };
 

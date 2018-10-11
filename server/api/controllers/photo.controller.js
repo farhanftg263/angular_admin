@@ -25,6 +25,7 @@ var Q = require('q');
 // routes 
 router.get('/private/:user/:page',dastboardPrivateList);  
 router.post('/upload_photo', uploadPhoto);
+router.post('/like-unlike',likeUnlike);
 module.exports = router;
 
 /*
@@ -35,7 +36,6 @@ module.exports = router;
 */
 function uploadPhoto(req, res)
 {
-    
     if (!req.fields.user && !req.fields.longitude) {
         return res.send({
             code: constant.ERROR,
@@ -164,22 +164,62 @@ function dastboardPrivateList(req,res,next)
 {
     var perPage = constant.PER_PAGE_RECORD
     var page = req.params.page || 1;
-    UserPrivatePhoto.find({})
-        .populate("userTo")
+    var user = req.params.user;
+    UserPrivatePhoto.find({userTo : user})
+        .populate("userTo","firstName lastName profilePic")
         .populate("userPhotoId")
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, users) {
-            if(err)
+            if (err) return next(err);
+
+            if(!users)
             {
-                next();
+                return res.json({
+                    code: constant.ERROR,
+                    message: message.USER_PHOTO.USER_PHOTO_PRIVATE_LIST_NOT_FOUND,
+                    data : {}
+                });
             }
-            UserPrivatePhoto.count().exec(function(err, count) {
+           
+            UserPrivatePhoto.countDocuments().exec(function(err, count) {
                 if (err) return next(err)
+
+
+                var privateData = [];
+                var i = 0;
+                for (var privateKey of users) {
+                    
+                    var objectData = {
+                        firstName : privateKey.userTo.firstName,
+                        lastName : privateKey.userTo.lastName,
+                        profilePic : (privateKey.userTo.profilePic)?constant.SITE_URL+privateKey.userTo.profilePic:null,
+                        photo : (privateKey.userPhotoId.photo)?constant.SITE_URL+privateKey.userPhotoId.photo:null,
+                        passcode : privateKey.userPhotoId.passcode,
+                        city : privateKey.userPhotoId.city,
+                        state : privateKey.userPhotoId.state,
+                        country : privateKey.userPhotoId.country,
+                        zipCode : privateKey.userPhotoId.zipCode,
+                        viewCount : privateKey.userPhotoId.viewCount,
+                        downloadCount : privateKey.userPhotoId.downloadCount,
+                        likeCount : privateKey.userPhotoId.likeCount,
+                        unlikeCount : privateKey.userPhotoId.unlikeCount,
+                        shareCount : privateKey.userPhotoId.shareCount,
+                        latitude : privateKey.userPhotoId.latitude,
+                        longitude : privateKey.userPhotoId.longitude
+                    }
+                    privateData.push(objectData);
+                }
                 return res.json({
                     code: constant.SUCCESS,
-                    message: message.USER.USER_SUMMARY_FOUND,
-                    data: users,
+                    message: message.USER_PHOTO.USER_PHOTO_PRIVATE_LIST_FOUND,
+                    data: {
+                        total : count,
+                        current: page,
+                        perPage: perPage,
+                        pages: Math.ceil(count / perPage),
+                        privateList : privateData
+                    },
                     total : count,
                     current: page,
                     perPage: perPage,
@@ -187,4 +227,14 @@ function dastboardPrivateList(req,res,next)
                 });
             })
         });
+}
+/*
+ Function Name : Like Unlike for image
+ Author  : Farhan
+ Created : 08-10-2018
+ @param  : photo 
+*/
+function likeUnlike()
+{
+    
 }

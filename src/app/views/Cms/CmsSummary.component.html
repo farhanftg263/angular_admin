@@ -1,4 +1,18 @@
 <div class="animated fadeIn">
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="card card-header">
+            <form novalidate [formGroup]="cms" (ngSubmit)="searchedData(cms)">                
+              <input size="42px" type="text" id="nf-searchKey" formControlName="searchKey" maxlength="60" placeholder="Search by page name..">
+              &nbsp;&nbsp;                
+              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Search</button>      
+            </form> 
+      </div>
+    </div>
+  </div>    
+</div>
+
+<div class="animated fadeIn">
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
@@ -10,10 +24,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Page Name</th>
-                  <th>Meta Title</th>
-                  <th>Meta Description</th>                  
-                  <th>Created Date</th>                  
+                  <th><a href="javascript:void(0)" (click)="sortByFields('pageName',sortDirection)">Page Name</a></th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('metaTitle',sortDirection)">Meta Title</a></th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('metaDescription',sortDirection)">Meta Description</a></th>                  
+                  <th><a href="javascript:void(0)" (click)="sortByFields('createdDt',sortDirection)">Created Date</a></th>                  
                   <th>Action</th>
                 </tr>
               </thead>
@@ -36,7 +50,10 @@
             </table>
             <div class="card-body">
               <div class="row">
-                <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="cmsSummary.result?.length > 0">
+                  <input type="hidden" id="hidden_sort_field" [(ngModel)]="SortField">
+                  <input type="hidden" id="hidden_sort_direction" [(ngModel)]="SortFieldDir">
+                
+                <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="cmsSummary.result?.length > 0  && totalItems>perPage">                
                   <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
                 </div>
               </div>

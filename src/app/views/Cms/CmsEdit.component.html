@@ -6,7 +6,7 @@
   <div class="card-body">    
       <div class="form-group">
         <label for="nf-pageName">Page Name</label>
-        <input type="text" id="nf-pageName" formControlName="pageName" class="form-control" maxlength="60" minlength="2" placeholder="Enter Page Name.." autocomplete="page-name">
+        <input type="text" id="nf-pageName" formControlName="pageName" class="form-control" maxlength="60" minlength="2" placeholder="Enter Page Name.." readonly="readonly" autocomplete="page-name">
         <span class="invalid-feedback" *ngIf="cms.get('pageName').hasError('required') && cms.invalid">Please enter page name.</span>
       </div>
 

@@ -1,4 +1,18 @@
 <div class="animated fadeIn">
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="card card-header">
+            <form novalidate [formGroup]="users" (ngSubmit)="searchedData(users)">                
+              <input size="42px" type="text" id="nf-searchKey" formControlName="searchKey" maxlength="60" placeholder="Search by first name/last name/email..">
+              &nbsp;&nbsp;                
+              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Search</button>      
+            </form> 
+      </div>
+    </div>
+  </div>    
+</div>
+
+<div class="animated fadeIn">
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
@@ -10,10 +24,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Created Date</th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('firstName',sortDirection)">First Name</a></th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('lastName',sortDirection)">Last Name</a></th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('email',sortDirection)">Email</a></th>
+                  <th><a href="javascript:void(0)" (click)="sortByFields('createdAt',sortDirection)">Created Date</a></th>
                   <th>Role</th>
                   <th>Action</th>
                 </tr>
@@ -26,15 +40,20 @@
                   <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
                   <td>{{user.userType[0].roleName}}</td>
                   <td>
-                      <a href="javascript:void(0)" class="status" value="40" status="0" title="Active" ><i class="fa fa-fw" (click)="changeStatus(user)"  [ngClass]="user.userStatus == 1 ? 'fa-check' : 'fa-close'"></i></a>
+                      <a *ngIf="user.emailVerified==1" href="javascript:void(0)" class="status" value="40" status="0" title="Active" ><i class="fa fa-fw" (click)="changeStatus(user)"  [ngClass]="user.userStatus == 1 ? 'fa-check' : 'fa-close'"></i></a>
                       &nbsp;&nbsp;&nbsp;<a href="javascript::void(0)" routerLink="/admin_user/edit/{{user._id}}" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
                       &nbsp;&nbsp;&nbsp;<a href="javascript::void(0);" class="confirm" status="1" title="Remove" value="40" (click) = "delete(user._id)"><i class="fa fa-trash-o"></i></a>                </td>
+                </tr>
+                <tr *ngIf="userSummary.result?.length <= 0">
+                  <td colspan="6" align="center">There is no record exist.</td>
                 </tr>
               </tbody>
             </table>
             <div class="card-body">
                 <div class="row">
-                  <div class="col-xs-12 col-12 d-sm-down-none">
+                    <input type="hidden" id="hidden_sort_field" [(ngModel)]="SortField">
+                    <input type="hidden" id="hidden_sort_direction" [(ngModel)]="SortFieldDir">
+                  <div class="col-xs-12 col-12 d-sm-down-none" *ngIf="userSummary.result?.length > 0 && totalItems>perPage">
                     <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
                   </div>
                 </div>

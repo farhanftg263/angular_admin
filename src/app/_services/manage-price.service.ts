@@ -15,6 +15,11 @@ export class ManagePriceService {
         return this.http.get<ManagePrice[]>(appConfig.apiUrl+'/manage_price/'+page+'/'+sortFields+'/'+ordering);        
     }
 
+    getAllBySearchKey(page : number,sortFields : string, ordering : number,searchkey:any) {
+        
+        return this.http.get<ManagePrice[]>(appConfig.apiUrl+'/manage_price/search/'+page+'/'+sortFields+'/'+ordering+'/'+searchkey);        
+    }
+
     getById(id: string) {
         return this.http.get(appConfig.apiUrl+'/manage_price/edit/' + id);
     }

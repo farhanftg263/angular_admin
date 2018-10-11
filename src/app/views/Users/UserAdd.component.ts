@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/map';
-import { AlertService,RoleService,UserService, ValidationService} from '../../_services';
+import { AlertService,RolesService,UserService, ValidationService} from '../../_services';
 import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
 
 @Component({
@@ -23,17 +23,19 @@ export class UserAddComponent implements OnInit {
     user: FormGroup;
     userAddForm: FormGroup;
     submitted = false;
+    firstNameLength = false;
       constructor(
         private router : Router,
         private alertService : AlertService,
-        private roleService : RoleService,
+        private roleService : RolesService,
         private userService : UserService,
         private validationService : ValidationService,
         private fb: FormBuilder
       ){}
     ngOnInit() {
         //get user list
-        this.roleService.getAll().subscribe(
+        
+        this.roleService.getAllActiveRoles(1).subscribe(
             data => {
                 this.roleList = data;
                 console.log(this.roleList);
@@ -44,11 +46,11 @@ export class UserAddComponent implements OnInit {
         )
         // Form validation
         this.user = this.fb.group({
-            "firstName": ['', [Validators.required, Validators.minLength(2)]],
-            "email": ['',[Validators.required,Validators.email]],
-            "lastName": ['',Validators.required],
+            "firstName": ['', [Validators.required]],
+            "email": ['',[Validators.required,Validators.email, Validators.minLength(6),Validators.maxLength(60)]],
+            "lastName": ['',[Validators.required, Validators.minLength(2),Validators.maxLength(20)]],
             "userType" : ['',Validators.required],
-            "password" : ['',Validators.required],
+            "password" : ['',[Validators.required, Validators.minLength(2),Validators.maxLength(20)]],
             "confirmPassword" : ['',Validators.required]
         });
     }
@@ -66,7 +68,7 @@ export class UserAddComponent implements OnInit {
         if(this.user.invalid)
         {
             return;
-        }
+        }      
         
         this.userService.create(this.user.value).subscribe(
             data => {

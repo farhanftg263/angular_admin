@@ -15,6 +15,7 @@ export class AuthenticationService {
                 if ( user.result && user.result.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
+                    console.log("Token "+user.result.token);
                 }
 
                 return user;
@@ -30,13 +31,14 @@ export class AuthenticationService {
         return this.http.post<any>(appConfig.apiUrl+'/users/forgetpassword',{email:email});
     }
     // verify password
-    verifyPassword(email:string,token:string)
+    verifyPassword(email:string,token:string,forget:number,utype:number)
     {
-        return this.http.post<any>(appConfig.apiUrl+'/users/verifypassword',{email:email,token:token});
+        return this.http.post<any>(appConfig.apiUrl+'/users/verifypassword',{email:email,token:token,forget:forget,utype:utype});
     }
     //reset password
-    resetPassword(_otp:string,password:string)
+    resetPassword(password:string,email:string,accessToken:string)
     {
-        return this.http.post<any>(appConfig.apiUrl+'/users/resetpassword/', {password:password, _otp: _otp});
+        
+        return this.http.post<any>(appConfig.apiUrl+'/users/resetpassword', {password:password, email: email,accessToken:accessToken});
     }
 }

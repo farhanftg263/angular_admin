@@ -52,7 +52,9 @@ module.exports = {
         'USER_PHOTO_COUNTRY_REQUIRED' : 'Country is required',
         'USER_PHOTO_ZIPCODE_REQUIRED' : 'Zip Code is required',
         'USER_PHOTO_REQUIRED' : 'User photo is required',
-        'USER_PHOTO_SAVED_SUCCESSFULLY' : 'User photo has been saved successfully'
+        'USER_PHOTO_SAVED_SUCCESSFULLY' : 'User photo has been saved successfully',
+        'USER_PHOTO_PRIVATE_LIST_FOUND' : 'User photo private list found',
+        'USER_PHOTO_PRIVATE_LIST_NOT_FOUND' : 'User photo private list not found'
     }
 };
 

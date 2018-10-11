@@ -4,7 +4,8 @@ const expressJwt = require('express-jwt');
 var config = require('./config.json');
 var cors = require('cors');
 var bodyParser = require('body-parser');
-var formidable = require('express-formidable');
+var formidable = require('formidable');
+var path = require('path');
 
 // use JWT auth to secure the api, the token can be passed in the authorization header or querystring
 app.use(expressJwt({
@@ -25,7 +26,18 @@ app.use(expressJwt({
 
 // routes
 app.use('/users', require('./api/controllers/users.controller'));
-app.use(formidable());
+app.use(function (req, res, next) {
+    var form = new formidable.IncomingForm({
+        encoding: 'utf-8',
+        multiples: true,
+        keepExtensions: true
+    })
+    form.once('error', console.log)
+    form.parse(req, function (err, fields, files) {
+        Object.assign(req, {fields, files});
+        next();
+    })
+})
 app.use('/photo', require('./api/controllers/photo.controller'));
 
 // error handler

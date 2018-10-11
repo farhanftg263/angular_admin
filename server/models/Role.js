@@ -12,6 +12,11 @@ var RoleSchema = new Schema({
         type:String,
         trim:true
     },
+    privilege:{
+        type:String,
+        trim:true
+    },
+    
     status:{
     type:String,
     trim:true,

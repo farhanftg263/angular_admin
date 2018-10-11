@@ -8,12 +8,21 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll(page : number) {
-        return this.http.get<User[]>(appConfig.apiUrl+'/users/'+page);
+    getAll(page : number,sortFields : string, ordering : number) {
+        
+        return this.http.get<User[]>(appConfig.apiUrl+'/users/'+page+'/'+sortFields+'/'+ordering);        
+    }
+    getAllBySearchKey(page : number,sortFields : string, ordering : number,searchkey:any) {
+        
+        return this.http.get<User[]>(appConfig.apiUrl+'/users/search/'+page+'/'+sortFields+'/'+ordering+'/'+searchkey);        
     }
 
     getById(id: string) {
         return this.http.get(appConfig.apiUrl+'/users/current/' + id);
+    }
+
+    getUserIdByRoleId(id: string) {
+        return this.http.get(appConfig.apiUrl+'/users/role/' + id);
     }
 
     create(user: User) {

@@ -1,4 +1,5 @@
-﻿var User = require('../models/User')
+﻿var User = require('../models/User');
+var Role = require('../models/Role');
 var EmailTemp = require('../models/EmailTemplate');
 var validator = require('../middlewares/validation');
 var constant = require("../constant");
@@ -23,6 +24,8 @@ router.post('/forgetpassword',forgotpassword);
 router.post('/verifypassword',verifyPassword);
 router.post('/resetpassword',resetPassword);
 router.put('/status/:_id',status);
+router.put('/change_password/:_id',change_password);
+
 router.get('/:page/:sortfields/:ordering', summary);
 router.get('/current/:_id', getCurrent);
 router.get('/role/:_id', getUserByRoleId);
@@ -67,18 +70,38 @@ function authenticate(req, res)
                 code: constant.ERROR ,
                 message: message.USER.EMAIL_NOT_FOUND,
             });
-            } else {
+            } else {               
                 result.comparePassword(req.body.password, function (err, isMatch) {
                     if (isMatch && !err) {
-                        return res.json({
-                            code: constant.SUCCESS,
-                            message: message.USER.LOGIN_SUCCESSFULLY,
-                            result: {
-                                _id: result._id,
-                                email: result.email,
-                                firstName: result.firstName,
-                                lastName: result.lastName,
-                                token: jwt.sign({ sub: result._id }, config.secret, { expiresIn: '24h' })
+
+                        Roledfdf.findOne({ _id: result.userType[0]}, (errRole, resultRole) => {
+                            if (errRole) {
+                                return res.send({
+                                  code: constant.ERROR,
+                                  message: constant.INTERNAL_SERVER_ERROR
+                                })
+                            } else {
+                                if (!resultRole) {
+                                  res.json({
+                                      code: constant.ERROR ,
+                                      message: message.USER.EMAIL_NOT_FOUND,
+                                  });
+                                } else {                                    
+                                    return res.json({
+                                        code: constant.SUCCESS,
+                                        message: message.USER.LOGIN_SUCCESSFULLY,
+                                        result: {
+                                            _id: result._id,
+                                            email: result.email,
+                                            firstName: result.firstName,
+                                            lastName: result.lastName,
+                                            privilege:resultRole.privilege,
+                                            roleName:resultRole.roleName,
+                                            roleId:resultRole._id,                                
+                                            token: jwt.sign({ sub: result._id }, config.secret, { expiresIn: '24h' })
+                                        }
+                                    });
+                                }
                             }
                         });
                     } else {
@@ -177,7 +200,7 @@ function register(req, res) {
                                     console.log("error", err);
                                 }else {
                                     //accessToken
-                                    let link = 'http://localhost:4200/resetpassword?email='+userData.email+'&accessToken='+accessToken;
+                                    let link = constant.SITE_URL+'resetpassword?email='+userData.email+'&f=0&u=0&accessToken='+accessToken;
                                     var mailhtml = temp.html.replace('{content}',result.emailContent);
                                     mailhtml = mailhtml.replace('{userName}',userData.firstName +' '+userData.lastName);
                                     mailhtml = mailhtml.replace('{userEmail}',userData.email);                                    
@@ -199,39 +222,6 @@ function register(req, res) {
                             })
                         }          
                     })
-
-                    // create reusable transporter object using the default SMTP transport
-                 /*   let transporter = nodemailer.createTransport({
-                        host: constant.SMTP_HOST,
-                        port: constant.SMTP_PORT,
-                        secure: false, // true for 465, false for other ports
-                        auth: {
-                            user: constant.SMTP_USERNAME, // generated ethereal user
-                            pass: constant.SMTP_PASSWORD // generated ethereal password
-                        }
-                    });
-                    host=req.get('host');
-                    link="http://"+req.get('host')+"/user/verifyEmail/"+result._id;
-                    */
-                    // setup email data with unicode symbols
-                  /*  let mailOptions = {
-                        from: constant.SMTP_FROM_EMAIL, // sender address
-                        //to: 'farhan.hashmi@@newmediaguru.net', // list of receivers
-                        to: 'pradeep.chaurasia.newmediaguru@gmail.com', // list of receivers
-                        subject: 'Please confirm your Email account ✔', // Subject line
-                        text: 'Hello world?', // plain text body
-                        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-                    }; */
-
-                    // send mail with defined transport object
-                    /*transporter.sendMail(mailOptions, (error, info) => {
-                        if (error) {
-                            return console.log(error);
-                        }
-                        console.log('Message sent: %s', info.messageId);
-                        // Preview only available when sending through an Ethereal account
-                        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-                    });*/
 
                     return res.send({
                         code: constant.SUCCESS,
@@ -421,72 +411,6 @@ function _delete(req, res) {
     Modified Date : 05-10-2018
     Type: Public function for forgot password
 */
-function forgotpassword11(req, res)
-{
-    User.findOne({email: req.body.email},(err,result) => {
-        if(err)
-        {
-            res.send({
-                code : constant.ERROR,
-                message : constant.INTERNAL_SERVER_ERROR
-            });
-        }
-        else if(!result)
-        {
-            res.json({
-                code : constant.ERROR,
-                message : message.USER.EMAIL_NOT_FOUND
-            });
-        }
-        else{
-            // send mail to user
-           
-            let transporter = nodemailer.createTransport({
-                host: constant.SMTP_HOST,
-                port: constant.SMTP_PORT,
-                secure: true, // true for 465, false for other ports
-                auth: {
-                    user: constant.SMTP_USERNAME, // generated ethereal user
-                    pass: constant.SMTP_PASSWORD // generated ethereal password
-                }
-            });
-
-            //create the path of email template folder 
-            var templateDir = path.join(__dirname, "../", 'templates', 'testMailTemplate')
-            console.log(templateDir)
-            var testMailTemplate = new EmailTemplate(templateDir)
-            var locals = {
-                userName: "XYZ" //dynamic data for bind into the template,
-                
-            };
-
-            testMailTemplate.render(locals, function (err, temp) {
-                if (err) {
-                    console.log("error", err);
-                }else {
-                    transporter.sendMail({
-                        from: constant.SMTP_FROM_EMAIL,
-                        to: 'nmg.farhan@gmail.com',
-                        subject: "test mail",
-                        text: "Hello world",
-                        html: temp.html
-                    },function (error, info) {
-                        if (error) {
-                            console.log(error);
-                        }
-                        console.log('Message sent: ' + info.response);
-                    })
-                }
-            })
-            
-            return res.send({
-                code: constant.SUCCESS,
-                message: message.USER.FORGOT_PASSWORD_SUCCESS,
-                result: result
-            })
-        }
-    })
-}
 function forgotpassword(req, res)
 {
     const data = req.body;
@@ -524,7 +448,7 @@ function forgotpassword(req, res)
         else{
             // Email Template
             const userData = result;
-            EmailTemp.findOne({emailTitle : 'App Forget Password'},(err,result) => {
+            EmailTemp.findOne({emailTitle : 'Admin Forget Password'},(err,result) => {
                 if(err)
                 {
                     res.send({
@@ -542,7 +466,12 @@ function forgotpassword(req, res)
                     });
                 }
                 else{
-                    var motp = otpGenerator.generate(4,{ upperCase: false, specialChars: false, digits:true, alphabets:false });
+
+                    let unix_time = moment().unix()
+                    let salt = req.body.firstName + unix_time
+                    let accessToken = md5(salt);
+
+                   // var motp = otpGenerator.generate(4,{ upperCase: false, specialChars: false, digits:true, alphabets:false });
 
                     let transporter = nodemailer.createTransport({
                         host: constant.SMTP_HOST,
@@ -555,23 +484,25 @@ function forgotpassword(req, res)
                     });
                     
                     //create the path of email template folder 
-                    var templateDir = path.join(__dirname, "../../", 'templates', 'appTemplate')
-                    var testMailTemplate = new EmailTemplate(templateDir)
-                    var locals = {
-                        userName: userData.firstName +' '+userData.lastName,
-                        content : ''
-                    };
+                        var templateDir = path.join(__dirname, "../", 'templates', 'adminTemplate')
+                        var testMailTemplate = new EmailTemplate(templateDir)
+                        var locals = {
+                            userName: userData.firstName +' '+userData.lastName,
+                            content : ''
+                        };
+                   
                     testMailTemplate.render(locals, function (err, temp) {
                         if (err) {
                             console.log("error", err);
                         }else {
+                            let link = constant.SITE_URL+'resetpassword?email='+userData.email+'&f=1&u=0&accessToken='+accessToken;
                             var mailhtml = temp.html.replace('{content}',result.emailContent);
-                            mailhtml = mailhtml.replace('{userName}',userData.firstName +' '+userData.lastName);
-                            mailhtml = mailhtml.replace('{OTP}',motp);
+                            mailhtml = mailhtml.replace('{userName}',userData.firstName +' '+userData.lastName);                                                           
+                            mailhtml = mailhtml.replace('{LINK}',link);
 
                             transporter.sendMail({
                                 from: constant.SMTP_FROM_EMAIL,
-                                to: req.body.email,
+                                to: userData.email,
                                 subject: result.emailSubject,
                                 text: "Hello world",
                                 html: mailhtml
@@ -581,7 +512,7 @@ function forgotpassword(req, res)
                                 }
 
                                 // Update User OTP accessToken
-                                User.findOneAndUpdate({ email:req.body.email }, {accessToken:motp}, { new:true },(err,result) => {
+                                User.findOneAndUpdate({ email:req.body.email }, {accessToken:accessToken}, { new:true },(err,result) => {
                                     if(err){
                                         return res.send({
                                             code: constant.ERROR,
@@ -627,21 +558,45 @@ function verifyPassword(req, res)
         if(err)
         {
             res.send({
+
                 code : constant.ERROR,
                 message : constant.INTERNAL_SERVER_ERROR
             });
         }
         else{
             if(!result)
-            {
-                res.json({
-                    code : constant.ERROR,
-                    message : message.USER.FORGOT_PASSWORD_TOKEN_NOT_VERIFY
-                });
-            }else if(result.emailVerified>0){
+            {   
+                if(req.body.utype>0){
+                    return  res.json({
+                        code : constant.APPUSER,
+                        message : message.USER.ALREADY_ACCOUNT_ACTIVE
+                    });
+                }else{
+                    return res.json({
+                        code : constant.ERROR,
+                        message : message.USER.FORGOT_PASSWORD_TOKEN_NOT_VERIFY
+                    });
+                }
+                
+
+            }else if(result.emailVerified>0 && req.body.forget<=0){
+                if(req.body.utype>0){
+                    return res.json({
+                        code : constant.APPUSER,
+                        message : message.USER.ALREADY_ACCOUNT_ACTIVE,
+                        result : result
+                    });
+                }else{
+                    return res.json({
+                        code : constant.VERIFIED,
+                        message : message.USER.FORGOT_PASSWORD_TOKEN_NOT_VERIFY,
+                        result : result
+                    }); 
+                }
+            }else if(result.emailVerified>0 && req.body.utype>0){
                 return res.json({
-                    code : constant.VERIFIED,
-                    message : message.USER.FORGOT_PASSWORD_TOKEN_NOT_VERIFY,
+                    code : constant.APPUSER,
+                    message : message.USER.ALREADY_ACCOUNT_ACTIVE,
                     result : result
                 }); 
             }
@@ -793,4 +748,56 @@ function FileredUsersSummary(req, res) {
                 });
             })
         });
+}
+
+/*
+    Function Name : Change Password
+    Author  : Pradeep Chaurasia
+    Created : 05-10-2018
+    Modified By : Pradeep Chaurasia
+    Type: Public function for change password of login users
+*/
+function change_password(req,res){ 
+    console.log('========='+req.params._id); 
+    console.log('========= body'+req.body); 
+
+    var myquery = { _id: req.params._id };
+    
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) {
+            return next(err);
+        }
+        bcrypt.hash(req.body.password, salt, null, function (err, hash) {
+            if (err) {
+                return next(err);
+            }
+            var newvalues = { $set: { password: hash } };
+            
+  
+    User.updateOne(myquery, newvalues, { new:true },(err,result) => {
+        if(err){
+            return res.send({
+                code: constant.ERROR,
+                message: constant.INTERNAL_SERVER_ERROR
+            });
+        }else {
+            if (!result) 
+            {
+                res.json({
+                    code: constant.ERROR,
+                    message: message.USER.USER_NOT_FOUND
+                });
+            }else {                
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: message.USER.CHANGE_PASSWORD_SUCCESS,
+                    result: result
+                });
+        
+            }
+        }
+    })
+}); 
+});
+
 }

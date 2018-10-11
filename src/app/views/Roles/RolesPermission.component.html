@@ -1,0 +1,131 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Permission</strong> Role
+  </div>  
+  <form novalidate [formGroup]="roles" (ngSubmit)="edit(roles)">
+  <div class="card-body">    
+      <div class="form-group">
+        <label for="nf-roleName"><strong>Role Name: </strong> {{rolename}}</label>        
+      </div>
+        
+      <div class="form-check">
+        <input class="form-check-input" formControlName = "privilege_dashboard" type="checkbox" value="1" id="dashboard">
+        <label class="form-check-label" for="dashboard">
+          Dashboard
+        </label>
+      </div>
+     <strong> Manage Admin User</strong><br />
+      <div class="form-check">
+       &nbsp;&nbsp; <input [checked]="checkedUsers" class="form-check-input" formControlName = "privilege_users" type="checkbox" value="2" id="manage_users">
+        <label class="form-check-label" for="manage_users">
+          Manage Users
+        </label>
+      </div>
+      <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedRoles" class="form-check-input" formControlName = "privilege_roles" type="checkbox" value="3" id="manage_roles">
+        <label class="form-check-label" for="manage_roles">
+          Manage Roles
+        </label>
+      </div>
+      <strong> Manage App Users</strong><br />
+      <div class="form-check">
+       &nbsp;&nbsp; <input [checked]="checkedAppUsers" class="form-check-input" formControlName = "privilege_app_users" type="checkbox" value="4" id="manage_app_users">
+        <label class="form-check-label" for="manage_app_users">
+          Manage Users
+        </label>
+      </div>
+      <strong> Manage Master</strong><br />
+      <div class="form-check">
+       &nbsp;&nbsp; <input [checked]="checkedCMS" class="form-check-input" formControlName = "privilege_cms" type="checkbox" value="5" id="manage_cms">
+        <label class="form-check-label" for="manage_cms">
+          Manage CMS
+        </label>
+      </div>
+      <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedGlobal" class="form-check-input" formControlName = "privilege_global" type="checkbox" value="6" id="manage_global">
+         <label class="form-check-label" for="manage_global">
+          Manage Global App Settings
+         </label>
+       </div>
+       <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedPrice" class="form-check-input" formControlName = "privilege_price" type="checkbox" value="7" id="manage_price">
+         <label class="form-check-label" for="manage_price">
+          Manage Price
+         </label>
+       </div>
+       <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedEmailTemp" class="form-check-input" formControlName = "privilege_emailtemp" type="checkbox" value="8" id="manage_emailtemp">
+         <label class="form-check-label" for="manage_emailtemp">
+          Manage Email Template
+         </label>
+       </div>
+       <strong>Manage Rewards</strong><br />
+      <div class="form-check">
+       &nbsp;&nbsp; <input [checked]="checkedProduct" class="form-check-input" formControlName = "privilege_product" type="checkbox" value="9" id="manage_product">
+        <label class="form-check-label" for="manage_product">
+          Manage Product
+        </label>
+      </div>
+      <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedRedemption" class="form-check-input" formControlName = "privilege_redemption" type="checkbox" value="10" id="manage_redemption">
+        <label class="form-check-label" for="manage_redemption">
+          Manage Redemption Request
+        </label>
+      </div>
+
+      <strong>Manage Photo</strong><br />
+      <div class="form-check">
+       &nbsp;&nbsp; <input [checked]="checkedPhoto" class="form-check-input" formControlName = "privilege_photo" type="checkbox" value="11" id="privilege_photo">
+        <label class="form-check-label" for="privilege_photo">
+          Photo
+        </label>
+      </div>
+      <strong>Manage Reports</strong><br />
+      <div class="form-check">
+       &nbsp;&nbsp; <input [checked]="checkedStats" class="form-check-input" formControlName = "privilege_stats" type="checkbox" value="14" id="manage_stats">
+        <label class="form-check-label" for="manage_stats">
+          Stats
+        </label>
+      </div>
+      <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedRevenue" class="form-check-input" formControlName = "privilege_revenue" type="checkbox" value="15" id="manage_revenue">
+        <label class="form-check-label" for="manage_revenue">
+          Revenue
+        </label>
+      </div>
+      <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedRegistartion" class="form-check-input" formControlName = "privilege_registartion" type="checkbox" value="16" id="manage_registration">
+        <label class="form-check-label" for="manage_registration">
+          User Registration
+        </label>
+      </div>
+      <div class="form-check">
+        &nbsp;&nbsp; <input [checked]="checkedLeaderboard" class="form-check-input" formControlName = "privilege_leaderboard" type="checkbox" value="17" id="manage_leaderboard">
+        <label class="form-check-label" for="manage_leaderboard">
+          Leaderboard
+        </label>
+      </div>
+
+
+      <div class="form-check">
+          <input class="form-check-input" formControlName = "privilege_contact" type="checkbox" value="12" id="contact">
+          <label class="form-check-label" for="contact">
+            Contact Admin
+          </label>
+      </div>
+      <div class="form-check">
+          <input class="form-check-input" formControlName = "privilege_feedback" type="checkbox" value="13" id="feedback">
+          <label class="form-check-label" for="feedback">
+            Feedback
+          </label>
+      </div>
+    
+      
+
+    
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Update</button>   
+  </div>
+</form> 
+</div>

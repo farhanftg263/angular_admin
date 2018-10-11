@@ -3,6 +3,8 @@ import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
 import { AlertService,ManagePriceService} from '../../_services';
+import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,14 +35,16 @@ export class ManagePriceSummaryComponent implements OnInit  {
   sortDirection : any={};
   SortField : any='_id';
   SortFieldDir :any='0';
-  
+  prices: FormGroup;
+  perPage:any;
 
   currentPager: number   = 4;
     constructor(
       private router : Router,
       private alertService : AlertService,
       private managePriceService : ManagePriceService,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private fb: FormBuilder,
 
     ){}
 
@@ -54,6 +58,7 @@ export class ManagePriceSummaryComponent implements OnInit  {
             this.managePriceSummary = data;
             this.totalItems = this.managePriceSummary.total;
             this.currentPage = this.managePriceSummary.current;
+            this.perPage=this.managePriceSummary.perPage;
             console.log(this.managePriceSummary);
         },
         error => {
@@ -62,6 +67,9 @@ export class ManagePriceSummaryComponent implements OnInit  {
             this.alertService.error(error);
         }
       )
+      this.prices = this.fb.group({
+        "searchKey": ['', ]   
+    });
      
     }
     setPage(pageNo: number): void {
@@ -73,18 +81,36 @@ export class ManagePriceSummaryComponent implements OnInit  {
         console.log('Number items per page: ' + event.itemsPerPage);
         console.log('bbbbbbbbb '+this.sortDirection);
 
-        this.managePriceService.getAll(event.page,this.SortField,this.SortFieldDir).subscribe(        
-          data => {
-              this.managePriceSummary = data;
-              this.totalItems = this.managePriceSummary.total;
-              this.currentPage = parseInt(this.managePriceSummary.current);
-              
-              console.log(this.managePriceSummary);
-          },
-          error => {
-              this.alertService.error(error);
-          }
-        )
+        if(this.prices.value.searchKey){ 
+            console.log('Before sort direction for sort: ' + this.sortDirection);
+        
+            this.managePriceService.getAllBySearchKey(event.page,this.SortField,this.SortFieldDir,this.prices.value.searchKey).subscribe(                  
+            data => {
+                this.managePriceSummary = data;
+                this.totalItems = this.managePriceSummary.total;
+                this.currentPage = parseInt(this.managePriceSummary.current);
+                this.perPage=this.managePriceSummary.perPage;
+                console.log(this.managePriceSummary);
+            },
+            error => {
+                this.alertService.error(error);
+            }
+            )
+        }else{
+
+            this.managePriceService.getAll(event.page,this.SortField,this.SortFieldDir).subscribe(        
+            data => {
+                this.managePriceSummary = data;
+                this.totalItems = this.managePriceSummary.total;
+                this.currentPage = parseInt(this.managePriceSummary.current);
+                this.perPage=this.managePriceSummary.perPage;
+                console.log(this.managePriceSummary);
+            },
+            error => {
+                this.alertService.error(error);
+            }
+            )
+        }
       }
         sortByFields(fieldsName:string,sortDirection:any): void {
             this.setPage(1);
@@ -95,23 +121,39 @@ export class ManagePriceSummaryComponent implements OnInit  {
                 this.sortDirection=0;
             }
            this.SortField=fieldsName;
-           this.SortFieldDir=sortDirection;                         
+           this.SortFieldDir=sortDirection;
+            console.log('fields name for sort: ' + fieldsName);
+            console.log('After sort direction for sort: ' + this.sortDirection);
+            if(this.prices.value.searchKey){ 
+                console.log('Before sort direction for sort: ' + this.sortDirection);
             
+                this.managePriceService.getAllBySearchKey(this.currentPage,fieldsName,sortDirection,this.prices.value.searchKey).subscribe(                  
+                data => {
+                    this.managePriceSummary = data;
+                    this.totalItems = this.managePriceSummary.total;
+                    this.currentPage = parseInt(this.managePriceSummary.current);
+                    this.perPage=this.managePriceSummary.perPage;
+                    console.log(this.managePriceSummary);
+                },
+                error => {
+                    this.alertService.error(error);
+                }
+                )
+            }else{
 
-        console.log('fields name for sort: ' + fieldsName);
-        console.log('After sort direction for sort: ' + this.sortDirection);
-        this.managePriceService.getAll(this.currentPage,fieldsName,sortDirection).subscribe(        
-          data => {
-              this.managePriceSummary = data;
-              this.totalItems = this.managePriceSummary.total;
-              this.currentPage = parseInt(this.managePriceSummary.current);
-              
-              console.log(this.managePriceSummary);
-          },
-          error => {
-              this.alertService.error(error);
-          }
-        )
+                this.managePriceService.getAll(this.currentPage,fieldsName,sortDirection).subscribe(        
+                data => {
+                    this.managePriceSummary = data;
+                    this.totalItems = this.managePriceSummary.total;
+                    this.currentPage = parseInt(this.managePriceSummary.current);
+                    this.perPage=this.managePriceSummary.perPage;
+                    console.log(this.managePriceSummary);
+                },
+                error => {
+                    this.alertService.error(error);
+                }
+                )
+            }
       }
 
   /*
@@ -190,6 +232,49 @@ changeStatus(pricetemp)
                     this.loading = false;
                 }
             )
+        }
+    }
+
+     /*
+      Function Type : filter price record
+      Author : Pradeep Chaurasia
+      Created On : 03-10-2018
+    */
+   searchedData(){
+    console.log('all fields value of search form: '+this.prices.value.searchKey);
+    this.setPage(1);
+    this.sortDirection = 0;
+    if(this.prices.value.searchKey){ 
+        console.log('Before sort direction for sort: ' + this.sortDirection);
+    
+        this.managePriceService.getAllBySearchKey(this.currentPage,this.SortField,this.sortDirection,this.prices.value.searchKey).subscribe(                  
+        data => {
+            this.managePriceSummary = data;
+            this.totalItems = this.managePriceSummary.total;
+            this.currentPage = parseInt(this.managePriceSummary.current);
+            this.perPage=this.managePriceSummary.perPage;
+            console.log(this.managePriceSummary);
+        },
+        error => {
+            this.alertService.error(error);
+        }
+        )
+    }else{
+
+            this.managePriceService.getAll(this.currentPage,this.SortField,this.sortDirection).subscribe(                  
+                data => {
+                    this.managePriceSummary = data;
+                    this.totalItems = this.managePriceSummary.total;
+                    this.currentPage = parseInt(this.managePriceSummary.current);
+                    this.perPage=this.managePriceSummary.perPage;
+                    console.log(this.managePriceSummary);
+                },
+                error => {
+                    this.alertService.error(error);
+                }
+                )
+
+
         }
     }
 

@@ -13,6 +13,7 @@ export class ValidationService {
       'invalidEmailAddress': 'Invalid email address',
       'invalidPassword': 'Invalid password. Password must be at least 8 characters long, and contain a number.',
       'mismatchedPasswords': 'Password didn\'t match',
+      'mismatchedEmail': 'Email didn\'t match',
       'minValue': 'Value must be greater than ' + customValue,
       'maxValue': 'Value must be less than ' + customValue,
       'invalidUrl': 'Invalid URL',
@@ -168,6 +169,19 @@ export class ValidationService {
       if (password.value != confirmPassword.value) {
         return {
           mismatchedPasswords: true
+        };
+      }
+    }
+  }
+  matchingEmail(emailKey: string, confirmEmailKey: string) {
+    return (group: FormGroup): {[key: string]: any} => {
+      let email = group.controls[emailKey];
+      let confirmEmail = group.controls[confirmEmailKey];
+      console.log(email.value);
+      console.log(' '+confirmEmail.value);
+      if (email.value != confirmEmail.value) {
+        return {
+          mismatchedEmail: true
         };
       }
     }

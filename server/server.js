@@ -22,16 +22,18 @@ var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
+
+app.use(express.static(__dirname + '/images'));
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('view engine', 'ejs');
 
 // load our API routes
+
 app.use('/api', apiRoutes);
 
 // use JWT auth to secure the api, the token can be passed in the authorization header or querystring
@@ -55,6 +57,13 @@ app.use('/email_template', require('./controllers/emailTemplate.controller'));
 app.use('/global_setting', require('./controllers/globalSetting.controller'));
 app.use('/manage_price', require('./controllers/managePrice.controller'));
 app.use('/product', require('./controllers/product.controller'));
+app.use('/app_users', require('./controllers/appUsers.controller'));
+app.use('/photo',require('./controllers/photo.controller'));
+app.use('/redemption_request',require('./controllers/redemptionRequest.controller'))
+app.use('/contact-admin',require('./controllers/contactAdmin.controller'));
+app.use('/feedback',require('./controllers/feedback.controller'));
+app.use('/leaderboard',require('./controllers/leaderboard.controller'));
+
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -65,9 +74,13 @@ app.use(function (err, req, res, next) {
     }
 });
 
-
+ 
 // start server
 var port = process.env.PORT === 'production' ? 80 : 4000;
 var server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
+
+process.on('uncaughtException', function (exception) {
+    console.log("Error "+exception); 
+}); 

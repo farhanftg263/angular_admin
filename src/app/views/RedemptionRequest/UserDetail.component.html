@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header">
+      <strong>User</strong> Detail
+    </div>
+    <div class="card-body">
+
+        <table border="1" width="100%">
+          <tr>
+            <td width="20%" >&nbsp;&nbsp;First Name: </td>
+            <td width="60%" >&nbsp;&nbsp;{{userDetail.result.firstName}}</td>
+          </tr>
+          <tr>
+              <td>&nbsp;&nbsp;Last Name: </td>
+              <td>&nbsp;&nbsp;{{userDetail.result.lastName}}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;&nbsp;Username: </td>
+                <td>&nbsp;&nbsp;{{userDetail.result.username}}</td>
+            </tr> 
+            <tr>
+                <td>&nbsp;&nbsp;Email</td>
+                <td>&nbsp;&nbsp;{{userDetail.result.email}}</td>
+            </tr>            
+            <tr>
+                <td>&nbsp;&nbsp;Contact Number </td>
+                <td>&nbsp;&nbsp;{{userDetail.result.phoneNumber}}</td>
+            </tr>            
+           
+            <tr>
+                <td>&nbsp;&nbsp;Shipping Address</td>
+                <td>&nbsp;&nbsp;{{userDetail.result.shippingAddress}}</td>
+            </tr>
+
+        </table>      
+        <br />
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <button type="button" routerLink="/redemption_request/summary" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Back</button>
+    </div>
+  </div>

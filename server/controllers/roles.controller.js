@@ -14,6 +14,7 @@ router.post('/', addRoles);
 router.get('/:_id', getCurrent);
 router.get('/edit/:_id', getCurrent);
 router.put('/status/:_id', changeStatusRoles);
+router.put('/permission/:_id', changePermissionRoles);
 router.put('/:_id', updateRoles);
 router.delete('/:_id', _deleteRoles);
 router.get('/status/:status', OnlyActiveRolesSummary);
@@ -306,3 +307,45 @@ function changeStatusRoles(req,res){
     }) 
 
 }
+
+/*
+    Function Name : changePermissionRoles
+    Author  : Pradeep Chaurasia
+    Created : 06-10-2018
+    Modified By : Pradeep Chaurasia
+    Type: Public function for update permission of role
+*/
+function changePermissionRoles(req,res){ 
+    console.log('========='+req.params._id); 
+    console.log('========= body'+req.body.privilege); 
+
+    var myquery = { _id: req.params._id };
+    var newvalues = { $set: { privilege: req.body.privilege } };
+  
+    Roles.updateOne(myquery, newvalues, { new:true },(err,result) => {
+        if(err){
+            return res.send({
+                code: constant.ERROR,
+                message: constant.INTERNAL_SERVER_ERROR
+            });
+        }else {
+            if (!result) 
+            {
+                res.json({
+                    code: constant.ERROR,
+                    message: message.ROLES.ROLES_NOT_FOUND
+                });
+            }else {
+                return res.json({
+                    code: constant.SUCCESS,
+                    message: message.ROLES.UPDATE_PERMISSION_STATUS,
+                    result: result
+                });
+        
+            }
+        }
+    }) 
+
+}
+
+

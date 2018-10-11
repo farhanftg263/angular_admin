@@ -6,7 +6,7 @@
   <div class="card-body">    
       <div class="form-group">
         <label for="nf-emailTitle">Email Title</label>
-        <input type="text" id="nf-emailTitle" formControlName="emailTitle" class="form-control" maxlength="60" minlength="2" placeholder="Enter email title..">
+        <input type="text" id="nf-emailTitle" formControlName="emailTitle" class="form-control" maxlength="60" minlength="2" readonly="readonly" placeholder="Enter email title..">
         <span class="invalid-feedback" *ngIf="emailTemplate.get('emailTitle').hasError('required') && emailTemplate.invalid">Please enter email title.</span>
       </div>
       <div class="form-group">

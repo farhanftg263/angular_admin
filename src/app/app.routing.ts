@@ -91,6 +91,42 @@ export const routes: Routes = [
         loadChildren: './views/Manage-Price/manage-price.module#ManagePriceModule'
       },
       {
+        path: 'product',
+        loadChildren: './views/Product/product.module#ProductModule'
+      },
+      {
+        path: 'roles',
+        loadChildren: './views/Roles/roles.module#RolesModule'
+      },
+      {
+        path: 'change_password',
+        loadChildren: './views/Change-Password/change-password.module#ChangePasswordModule'
+      },
+      {
+        path: 'photo',
+        loadChildren: './views/ManagePhoto/photo.module#PhotoModule'
+      },
+      {
+        path: 'app_user',
+        loadChildren: './views/App-Users/appuser.module#AppUserModule'
+      },
+      {
+        path: 'redemption_request',
+        loadChildren: './views/RedemptionRequest/redemption-request.module#RedemptionRequestModule'
+      },
+      {
+        path: 'contact-admin',
+        loadChildren: './views/ContactAdmin/ContactAdmin.module#ContactAdminModule'
+      },
+      {
+        path: 'feedback',
+        loadChildren: './views/Feedback/Feedback.module#FeedbackModule'
+      },
+      {
+        path: 'leaderboard',
+        loadChildren: './views/Leaderboard/Leaderboard.module#LeaderboardModule'
+      },
+      {
         path: 'buttons',
         loadChildren: './views/buttons/buttons.module#ButtonsModule'
       },
@@ -115,7 +151,7 @@ export const routes: Routes = [
         loadChildren: './views/theme/theme.module#ThemeModule'
       },
       {
-        path: 'widgets',
+        path: 'widgets fgdfgdfg',
         loadChildren: './views/widgets/widgets.module#WidgetsModule'
       }
     ]
@@ -123,7 +159,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
+  imports: [ RouterModule.forRoot(routes,{useHash: true}) ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {}

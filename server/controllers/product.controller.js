@@ -6,6 +6,11 @@ var moment = require('moment-timezone');
 
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var path = require("path");
+var mime = require('mime');
+var gm = require('gm');
+
 
 // routes
 router.get('/:page/:sortfields/:ordering', ProductSummary);
@@ -43,6 +48,7 @@ function ProductSummary(req, res) {
         .exec(function(err, allproduct) {
             Product.count().exec(function(err, count) {
                 if (err) return next(err)
+
                 return res.json({
                     code: constant.SUCCESS,
                     message: message.PRODUCT.PRODUCT_SUMMARY_FOUND,
@@ -100,7 +106,7 @@ function getCurrent(req, res) {
 */
 
 function addProduct(req, res) {
-    console.log('<<<<<<<<<<<', JSON.stringify(req.body))
+    //console.log('<<<<<<<<<<<',req.body.productImage.length)
     if (!req.body.productName && !req.body.description && !req.body.shippingRequired && !req.body.peerPointsRequired && !req.body.status) {
         return res.send({
         code: constant.ERROR,
@@ -120,23 +126,76 @@ function addProduct(req, res) {
             })
         } else {
             Product.create(req.body, (err, result) => {
-                if (err) {
-                    return res.send({
-                        errr : err,
-                        code: constant.ERROR,
-                        message: constant.INTERNAL_SERVER_ERROR
-                    })
-                } else {
-                    return res.send({
-                        code: constant.SUCCESS,
-                        message: message.PRODUCT.INSERT_SUCCESS,
-                        result: result
-                    })
+                        if (err) {
+                            return res.send({
+                                errr : err,
+                                code: constant.ERROR,
+                                message: constant.INTERNAL_SERVER_ERROR
+                        })
+
+                    // Upload Image
+                    var productDir = path.join(__dirname, "../", 'images/product/');
+                    var decodedImg = decodeBase64Image(req.body.productImage);
+                    var imageBuffer = decodedImg.data;
+                    var type = decodedImg.type;
+                    var extension = mime.getExtension(type);
+                    var fileName =  new Date().getTime()+'.' + extension;
+                    var uploadedImage = productDir + fileName;
+                    console.log("path "+uploadedImage);
+                    try{
+                        fs.writeFileSync(productDir + fileName, imageBuffer, 'utf8');
+                        let imageMagick = gm.subClass({imageMagick: true});
+                        imageMagick(uploadedImage)
+                        .resize(250, 400)
+                        .write(productDir+'thumb/'+fileName, (err) => {
+                        if (err) {
+                            console.log(err); 
+                        } else {
+                            //Created Product
+                            req.body.productImage = fileName;
+                            Product.create(req.body, (err, result) => {
+                                if (err) {
+                                    return res.send({
+                                        errr : err,
+                                        code: constant.ERROR,
+                                        message: constant.INTERNAL_SERVER_ERROR
+                                    });
+                                } else {
+                                    return res.send({
+                                        code: constant.SUCCESS,
+                                        message: message.PRODUCT.INSERT_SUCCESS,
+                                        result: result
+                                    });
+                                }
+                            })
+
+                        }
+                        })
+                    }
+                    catch(err){
+                        console.error(err)
+                    }
                 }
             })
         }
     })
+
+            
 }
+function decodeBase64Image(dataString) {
+    var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+      response = {};
+  
+    if (matches.length !== 3) {
+      return new Error('Invalid input string');
+    }
+  
+    response.type = matches[1];
+    response.data = new Buffer(matches[2], 'base64');
+  
+    return response;
+  }
+  
 
 /*
     Function Name : Get updateProduct
@@ -154,29 +213,88 @@ function updateProduct(req, res) {
                 message: message.PRODUCT.PRODUCT_NAME_ALREADY_EXIST
             })
         } else {
-            Product.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
-                if(err){
-                    return res.send({
-                        code: constant.ERROR,
-                        message: constant.INTERNAL_SERVER_ERROR
-                    });
-                }else {
-                    if (!result) 
-                    {
-                        res.json({
-                            code: constant.ERROR,
-                            message: message.PRODUCT.PRODUCT_NOT_FOUND
-                        });
-                    }else {
-                        return res.json({
-                            code: constant.SUCCESS,
-                            message: message.PRODUCT.UPDATE_SUCCESS,
-                            result: result
-                        });
-                
-                    }
+
+             // Upload Image
+           
+             try{
+                if(req.body.productImage)
+                {
+                    var productDir = path.join(__dirname, "../", 'images/product/');
+                    var decodedImg = decodeBase64Image(req.body.productImage);
+                    var imageBuffer = decodedImg.data;
+                    var type = decodedImg.type;
+                    var extension = mime.getExtension(type);
+                    var fileName =  new Date().getTime()+'.' + extension;
+                    var uploadedImage = productDir + fileName;
+
+                    fs.writeFileSync(productDir + fileName, imageBuffer, 'utf8');
+                        let imageMagick = gm.subClass({imageMagick: true});
+                        imageMagick(uploadedImage)
+                        .resize(250, 400)
+                        .write(productDir+'thumb/'+fileName, (err) => {
+                        if (err) {
+                            console.log(err); 
+                        } else {
+                            //Created Product
+                            req.body.productImage = fileName;
+                            Product.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
+                                if(err){
+                                    return res.send({
+                                        code: constant.ERROR,
+                                        message: constant.INTERNAL_SERVER_ERROR
+                                    });
+                                }else {
+                                    
+                                    if (!result) 
+                                    {
+                                        res.json({
+                                            code: constant.ERROR,
+                                            message: message.PRODUCT.PRODUCT_NOT_FOUND
+                                        });
+                                    }else {
+                                        return res.json({
+                                            code: constant.SUCCESS,
+                                            message: message.PRODUCT.UPDATE_SUCCESS,
+                                            result: result
+                                        });
+                                
+                                    }
+                                }
+                            })
+                        }
+                    })
                 }
-            })
+                else{
+                    delete req.body.productImage;
+                    Product.findOneAndUpdate({ _id:req.params._id }, req.body, { new:true },(err,result) => {
+                        if(err){
+                            return res.send({
+                                code: constant.ERROR,
+                                message: constant.INTERNAL_SERVER_ERROR
+                            });
+                        }else {
+                            
+                            if (!result) 
+                            {
+                                res.json({
+                                    code: constant.ERROR,
+                                    message: message.PRODUCT.PRODUCT_NOT_FOUND
+                                });
+                            }else {
+                                return res.json({
+                                    code: constant.SUCCESS,
+                                    message: message.PRODUCT.UPDATE_SUCCESS,
+                                    result: result
+                                });
+                        
+                            }
+                        }
+                     })
+                } 
+             }
+             catch(err){
+                 console.error(err)
+             }
         }
    
     })

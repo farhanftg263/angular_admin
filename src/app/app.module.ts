@@ -8,6 +8,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -21,8 +22,10 @@ import { DefaultLayoutComponent } from './containers';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor } from './_helpers/index';
-import { AlertService, AuthenticationService, UserService, CmsService,RoleService, ValidationService, 
-  EmailTemplateService,GlobalSettingService,ManagePriceService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, CmsService,RolesService,
+         ValidationService,EmailTemplateService,GlobalSettingService,ManagePriceService,
+         ProductService,ChangePasswordService,AppUserService,PhotoService,ContactAdminService,
+         RedemptionRequestService,FeedbackService,LeaderboardService } from './_services/index';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -93,12 +96,15 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     EmailTemplateService,
     GlobalSettingService,
     ManagePriceService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true
-   },
-   RoleService,
+    ProductService,  
+   RolesService,
+   ChangePasswordService,
+   AppUserService,
+   RedemptionRequestService,
+   PhotoService,
+   ContactAdminService,
+   FeedbackService,
+   LeaderboardService,
    {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

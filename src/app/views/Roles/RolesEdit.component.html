@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Edit</strong> Role
+  </div>
+  <form novalidate [formGroup]="roles" (ngSubmit)="edit(roles)">
+  <div class="card-body">    
+      <div class="form-group">
+        <label for="nf-roleName">Role Name</label>
+        <input type="text" id="nf-roleName" formControlName="roleName" class="form-control" maxlength="50" minlength="2" placeholder="Enter Role Name.." autocomplete="role-name">
+        <span class="invalid-feedback" *ngIf="roles.get('roleName').hasError('required') && roles.invalid">Please enter role name.</span>
+        <span class="invalid-feedback" *ngIf="validRolename && !roles.get('roleName').hasError('required')">Role Name  must be between from 2 characters to 50 characters.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="nf-description">Description</label>
+        <input type="text" formControlName = "description" id="nf-description" name="description" maxlength="100" class="form-control" placeholder="Enter Page Description..">      
+      </div>
+    <!--
+      <div class="form-group ">
+        <label class="col-md-3 " for="inline-radios">Status</label>
+        <div class="col-md-9 col-form-label">
+          <div class="form-check form-check-inline mr-2" id="status">
+            <input class="form-check-input" id="status_active" formControlName="status" type="radio" value="1" checked="checked">
+            <label class="form-check-label" for="status_active">Active</label>
+          </div>
+          <div class="form-check form-check-inline mr-3">
+            <input class="form-check-input" id="status_inactive" formControlName="status" type="radio" value="0">
+            <label class="form-check-label" for="status_inactive">Inactive</label>
+          </div>          
+        </div>
+      </div> -->
+    
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Update</button>   
+  </div>
+</form>
+
+</div>

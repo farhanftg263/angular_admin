@@ -14,6 +14,10 @@ export class EmailTemplateService {
         console.log('price ids ordering : '+ordering);
         return this.http.get<EmailTemplate[]>(appConfig.apiUrl+'/email_template/'+page+'/'+sortFields+'/'+ordering);        
     }
+    getAllBySearchKey(page : number,sortFields : string, ordering : number,searchkey:any) {
+        
+        return this.http.get<EmailTemplate[]>(appConfig.apiUrl+'/email_template/search/'+page+'/'+sortFields+'/'+ordering+'/'+searchkey);        
+    }
 
     getById(id: string) {
         return this.http.get(appConfig.apiUrl+'/email_template/edit/' + id);

@@ -7,9 +7,15 @@ import { appConfig } from '../app.config';
 @Injectable()
 export class CmsService {
     constructor(private http: HttpClient) { }
+   
+    getAll(page : number,sortFields : string, ordering : number) {
+        
+        return this.http.get<Cms[]>(appConfig.apiUrl+'/cms/'+page+'/'+sortFields+'/'+ordering);        
+    }
 
-    getAll(page : number) {
-        return this.http.get<Cms[]>(appConfig.apiUrl+'/cms/'+page);        
+    getAllBySearchKey(page : number,sortFields : string, ordering : number,searchkey:any) {
+        
+        return this.http.get<Cms[]>(appConfig.apiUrl+'/cms/search/'+page+'/'+sortFields+'/'+ordering+'/'+searchkey);        
     }
 
     getById(id: string) {

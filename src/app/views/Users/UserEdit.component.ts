@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/map';
-import { AlertService,UserService,ValidationService,RoleService} from '../../_services';
+import { AlertService,UserService,ValidationService,RolesService} from '../../_services';
 import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
 
 @Component({
@@ -28,12 +28,12 @@ export class UserEditComponent implements OnInit {
         private route : ActivatedRoute,
         private alertService : AlertService,
         private userService : UserService,
-        private roleService : RoleService,
+        private roleService : RolesService,
         private fb: FormBuilder,
       ){}
     ngOnInit() {
-        //get user list
-        this.roleService.getAll().subscribe(
+        //get user list        
+        this.roleService.getAllActiveRoles(1).subscribe(
             data => {
                 this.roleList = data;
                 console.log(this.roleList);
@@ -41,16 +41,7 @@ export class UserEditComponent implements OnInit {
             error => {
                 this.alertService.error(error);
             }
-        )
-
-        // Form validation
-        this.user = this.fb.group({
-            "firstName": ['', [Validators.required, Validators.minLength(2)]],
-            "email": ['',[Validators.required,Validators.email]],
-            "lastName": ['',Validators.required],
-            "userType" : ['',Validators.required],
-            "userStatus" : ['1']
-        });
+        )      
 
         this.user_id = this.route.snapshot.paramMap.get('id');
         if(!(this.user_id))
@@ -88,6 +79,15 @@ export class UserEditComponent implements OnInit {
                 this.alertService.error(error);
             }        
           );
+
+           // Form validation
+        this.user = this.fb.group({
+            "firstName": ['', [Validators.required, Validators.minLength(2)]],
+            "email": ['',[Validators.required,Validators.email]],
+            "lastName": ['',Validators.required],
+            "userType" : ['',Validators.required],
+           // "userStatus" : ['1']
+        });
     }
 
     /*

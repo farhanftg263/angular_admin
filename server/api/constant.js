@@ -13,6 +13,8 @@ module.exports = {
     'SMTP_FROM_EMAIL': 'farhan.hashmi.newmediaguru@gmail.com',
     'cmsimage_path':'/var/www/html',
     'PHOTO_UPLOAD_PRIVATE' : 1,
-    'PHOTO_UPLOAD_PUBLIC' : 2   
+    'PHOTO_UPLOAD_PUBLIC' : 2,
+    'SITE_URL' : 'http://demo.newmediaguru.co:4000/'   
+    
 };
 

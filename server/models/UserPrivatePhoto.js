@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 global.Promise = mongoose.Promise;
 
 var UserPrivatePhotoSchema = new Schema({
-    userTo:[{ type: Schema.Types.ObjectId, ref: 'User' }],
-    userPhotoId:[{ type: Schema.Types.ObjectId, ref: 'UserPhoto' }],
+    userTo:{ type: Schema.Types.ObjectId, ref: 'User' },
+    userPhotoId:{ type: Schema.Types.ObjectId, ref: 'UserPhoto' },
 },
 {
 timestamps:true

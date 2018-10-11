@@ -1,0 +1,55 @@
+<div class="card">
+        <div class="card-header">
+          <strong>User</strong> Detail
+          <button  type="button" routerLink="/photo/summary" class="btn btn-sm btn-primary pull-right"><i class="fa fa-dot-circle-o"></i> Back</button>
+
+        </div>
+        <div class="card-body">
+    
+            <table border="1" width="100%">
+              <tr>
+                <td width="20%" >&nbsp;&nbsp;First Name: </td>
+                <td width="60%" >{{photoUserDetails.firstName}}</td>
+              </tr>
+              <tr>
+                  <td>&nbsp;&nbsp;Last Name: </td>
+                  <td>{{photoUserDetails.lastName}}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Username: </td>
+                    <td>{{photoUserDetails.username}}</td>
+                </tr> 
+                <tr>
+                    <td>&nbsp;&nbsp;Email</td>
+                    <td>{{photoUserDetails.email}}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Date of Birth </td>
+                    <td>{{photoUserDetails.dob}}</td>
+                </tr>
+    
+                <tr>
+                    <td>&nbsp;&nbsp;Place</td>
+                    <td>N/A</td>
+                </tr>
+    
+                <tr>
+                    <td>&nbsp;&nbsp;City/Zipcode </td>
+                    <td>{{photoUserDetails.city +'/'+ photoUserDetails.zipCode}}</td>
+                </tr> 
+                <tr>
+                    <td>&nbsp;&nbsp;Gender </td>
+                    <td>{{photoUserDetails.gender}}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;Contact Number </td>
+                    <td></td>
+                </tr> 
+                <tr>
+                    <td>&nbsp;&nbsp;Joined on </td>
+                    <td>{{photoUserDetails.createdAt | date:'MMM d, y, h:mm:ss a'}}</td>
+                </tr>
+                
+            </table>      
+        </div>
+      </div>

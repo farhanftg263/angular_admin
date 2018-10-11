@@ -24,6 +24,7 @@
         "jsonwebtoken": "^5.0.2",
         "lodash": "^4.17.11",
         "md5": "^2.2.1",
+        "mime": "^2.3.1",
         "moment": "^2.22.2",
         "moment-timezone": "^0.5.17",
         "mongodb": "^2.2.36",

@@ -14,7 +14,7 @@ var UserPhotoSchema = new Schema({
         trim:true,
         default:0
     },
-    user:[{ type: Schema.Types.ObjectId, ref: 'User' }],
+    user:{ type: Schema.Types.ObjectId, ref: 'User' },
     locationType:{
         type:Number,
         default:0
